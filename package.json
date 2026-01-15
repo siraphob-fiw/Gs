@@ -1,0 +1,91 @@
+{
+  "name": "strengthos-monorepo",
+  "version": "1.0.0",
+  "description": "StrengthOS - Modular, fullstack monorepo SaaS platform for strength athletes and coaches",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "test-apps/*",
+    "packages/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:watch": "turbo watch dev:watch",
+    "dev:libs": "turbo run dev:libs:watch --filter='libs/*'",
+    "dev:libs:watch": "turbo run dev:watch --filter='libs/*'",
+    "dev:libs:build": "turbo run dev --filter='libs/*'",
+    "dev:api": "concurrently \"npm run dev:libs:watch\" \"npm run start:dev --workspace=apps/sos-web-api\"",
+    "dev:training": "concurrently \"npm run dev:libs:watch\" \"npm run dev --workspace=apps/sos-web-training\"",
+    "dev:full": "concurrently \"npm run dev:libs:watch\" \"npm run start:dev --workspace=apps/sos-web-api\" \"npm run dev --workspace=apps/sos-web-training\"",
+    "build": "node scripts/build-libs.js && turbo run build",
+    "build:libs": "node scripts/build-libs.js",
+    "build:libs:watch": "turbo run build --filter='libs/*' --watch",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck", 
+    "clean": "turbo run clean",
+    "clean:libs": "turbo run clean --filter='libs/*'",
+    "build:libs:parallel": "node scripts/build-libs.js --parallel",
+    "build:libs:clean": "node scripts/build-libs.js --clean",
+    "build:libs:turbo": "turbo run build --filter='libs/*'",
+    "build:libs:ordered": "turbo run build:ordered",
+    "build:api": "npm run build --workspace=apps/sos-web-api",
+    "start:api": "npm run start:prod --workspace=apps/sos-web-api",
+    "build:training": "npm run build --workspace=apps/sos-web-training",
+    "start:training": "npm run start --workspace=apps/sos-web-training",
+    "install:all": "npm install",
+    "db:generate": "npm run db:generate --workspace=apps/sos-web-api",
+    "db:migrate": "npm run db:migrate --workspace=apps/sos-web-api",
+    "db:seed": "npm run db:seed --workspace=apps/sos-web-api",
+    "create-test-app": "node libs/shared-testing/dist/cli/create-test-app.js",
+    "list-test-apps": "node libs/shared-testing/dist/cli/create-test-app.js list",
+    "create-test-app:script": "node scripts/create-test-app.js",
+    "config:dev": "node scripts/setup-turbo-config.js development",
+    "config:prod": "node scripts/setup-turbo-config.js production",
+    "config:staging": "node scripts/setup-turbo-config.js staging",
+    "config:status": "node scripts/setup-turbo-config.js --status",
+    "setup:dev": "node scripts/setup-dev-scripts.js && npm run config:dev"
+  },
+  "dependencies": {
+    "@emotion/is-prop-valid": "^1.4.0",
+    "@isaacs/brace-expansion": "^5.0.0",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@nestjs/core": "^11.1.6",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^10.0.0",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "jest-util": "^30.0.5",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6"
+  },
+  "packageManager": "npm@10.9.2",
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.9.2"
+  },
+  "overrides": {
+    "rxjs": "^7.8.2"
+  },
+  "keywords": [
+    "monorepo",
+    "nextjs",
+    "fastify",
+    "nestjs",
+    "typescript",
+    "fitness",
+    "strength-training",
+    "saas",
+    "multi-tenant"
+  ],
+  "author": "Human Digital Solutions Co Ltd",
+  "license": "MIT"
+}

@@ -1,0 +1,96 @@
+{
+  "name": "NestJS + Next.js Multi-Tenant SaaS Platform",
+  "description": "Modular multi-tenant SaaS platform using NestJS for backend and Next.js 14 (App Router) with Tailwind CSS for the frontend. Features include attribution analytics, CRM, marketing reporting, compliance, and cloud-ready infrastructure.",
+  "rules": [
+    {
+      "rule": "Project must follow a monorepo layout with apps/ for applications and libs/ for shared logic"
+    },
+    {
+      "rule": "Only apps/ can contain main.ts (NestJS) or app/ (Next.js) as application entrypoints"
+    },
+    {
+      "rule": "Every NestJS module must contain a Module class and only inject Services into Controllers"
+    },
+    {
+      "rule": "Controllers must only handle request routing and delegation; no business logic allowed in controllers"
+    },
+    {
+      "rule": "DTOs must be used for all incoming requests and responses, defined in libs/"
+    },
+    {
+      "rule": "Tenant must be resolved using either subdomain or JWT claim (tenant_id) in a global NestJS interceptor"
+    },
+    {
+      "rule": "All backend services and queries must use the injected tenant context"
+    },
+    {
+      "rule": "JWT authentication must use Passport strategy with access and refresh tokens"
+    },
+    {
+      "rule": "Use @UseGuards(AuthGuard) and @CurrentUser() to secure all protected backend endpoints"
+    },
+    {
+      "rule": "Every service must be unit tested using Jest in its respective lib/ or app/"
+    },
+    {
+      "rule": "E2E tests must validate tenant scoping, auth flow, and API behavior"
+    },
+    {
+      "rule": "All DTOs, interceptors, and guards must include error and edge case test coverage"
+    },
+    {
+      "rule": "Do not use any; use interfaces or typed DTOs from libs/shared"
+    },
+    {
+      "rule": "All backend services must return Result<T> or equivalent typed responses"
+    },
+    {
+      "rule": "Frontend must use Next.js 14+ with the App Router (app/ directory structure)"
+    },
+    {
+      "rule": "Use Tailwind CSS for all styling; do not use SCSS or CSS modules"
+    },
+    {
+      "rule": "All components must be reusable and located in apps/web/components following Atomic Design (atoms, molecules, organisms)"
+    },
+    {
+      "rule": "Forms must use shared components and validation via React Hook Form or Zod"
+    },
+    {
+      "rule": "Icons must be from Untitled UI and imported as React components under apps/web/icons/"
+    },
+    {
+      "rule": "All charts and tables must use wrapper components (e.g., <ChartWrapper>) for flexibility and reusability"
+    },
+    {
+      "rule": "Pages must use layout.tsx and page.tsx files under app/ and follow clean routing"
+    },
+    {
+      "rule": "Reports must be built from reusable dashboard components with prop-driven behavior"
+    },
+    {
+      "rule": "Analytics logic must reside in libs/analytics as pure or service functions"
+    },
+    {
+      "rule": "Do not perform data aggregation in frontend; fetch prepared data via API"
+    },
+    {
+      "rule": "All PII must be hashed unless tier 3/4 consent is explicitly given"
+    },
+    {
+      "rule": "Consent must be validated against server-side rule maps per event"
+    },
+    {
+      "rule": "Logs must include tenant ID, event type, and consent tier"
+    },
+    {
+      "rule": "Environment-specific variables must be managed with .env files and .env.example templates"
+    },
+    {
+      "rule": "Infrastructure must be defined under infrastructure/ using Terraform or Serverless Framework"
+    },
+    {
+      "rule": "CI/CD must be defined via GitHub Actions in infrastructure/ci-cd/ with matrix testing for apps and libs"
+    }
+  ]
+}

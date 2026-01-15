@@ -1,0 +1,27 @@
+{
+  "name": "@strengthos/shared-logging",
+  "version": "1.0.0",
+  "description": "Shared logging utilities for StrengthOS applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "winston": "^3.11.0",
+    "winston-elasticsearch": "^0.17.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.2",
+    "vitest": "^1.6.1",
+    "@types/node": "^20.14.9"
+  },
+  "peerDependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils"
+  }
+}

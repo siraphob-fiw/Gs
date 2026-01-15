@@ -1,0 +1,133 @@
+# Staging values for strengthos-user-management
+replicaCount: 2
+
+image:
+  repository: ghcr.io/strengthos/user-management-api
+  pullPolicy: Always
+  tag: "latest"
+
+environment: staging
+
+# Application configuration
+config:
+  nodeEnv: staging
+  logLevel: debug
+  port: 3000
+  
+  # Database configuration
+  database:
+    host: "postgres-staging.strengthos.com"
+    port: 5432
+    name: strengthos_staging
+    ssl: true
+    poolMin: 2
+    poolMax: 10
+  
+  # Redis configuration
+  redis:
+    host: "redis-staging.strengthos.com"
+    port: 6379
+    db: 0
+    keyPrefix: "strengthos:staging:"
+  
+  # JWT configuration
+  jwt:
+    accessTokenExpiry: "30m"
+    refreshTokenExpiry: "1d"
+  
+  # Rate limiting (more lenient for testing)
+  rateLimit:
+    windowMs: 900000  # 15 minutes
+    max: 500
+  
+  # CORS configuration
+  cors:
+    origin: ["https://app-staging.strengthos.com", "https://admin-staging.strengthos.com"]
+    credentials: true
+
+# External services
+externalServices:
+  stripe:
+    enabled: true  # Use Stripe test mode
+  
+  sendgrid:
+    enabled: true
+  
+  oauth:
+    google:
+      enabled: true
+    facebook:
+      enabled: false
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    path: /metrics/prometheus
+  
+  grafana:
+    dashboards:
+      enabled: true
+
+# Health checks
+healthCheck:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  
+  readinessProbe:
+    httpGet:
+      path: /health/ready
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# Resource limits for staging
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+# Autoscaling
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    nginx.ingress.kubernetes.io/rate-limit: "500"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: api-staging.strengthos.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: strengthos-api-staging-tls
+      hosts:
+        - api-staging.strengthos.com
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1

@@ -1,0 +1,237 @@
+# Default values for strengthos-user-management
+replicaCount: 2
+
+image:
+  repository: ghcr.io/strengthos/user-management-api
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+  hosts:
+    - host: api.strengthos.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: strengthos-api-tls
+      hosts:
+        - api.strengthos.com
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - strengthos-user-management
+        topologyKey: kubernetes.io/hostname
+
+# Environment configuration
+environment: production
+
+# Application configuration
+config:
+  nodeEnv: production
+  logLevel: info
+  port: 3000
+  
+  # Database configuration
+  database:
+    host: ""
+    port: 5432
+    name: strengthos
+    ssl: true
+    poolMin: 2
+    poolMax: 10
+  
+  # Redis configuration
+  redis:
+    host: ""
+    port: 6379
+    db: 0
+    keyPrefix: "strengthos:"
+  
+  # JWT configuration
+  jwt:
+    accessTokenExpiry: "15m"
+    refreshTokenExpiry: "7d"
+  
+  # Rate limiting
+  rateLimit:
+    windowMs: 900000  # 15 minutes
+    max: 100
+  
+  # CORS configuration
+  cors:
+    origin: ["https://app.strengthos.com"]
+    credentials: true
+
+# External services
+externalServices:
+  stripe:
+    enabled: true
+  
+  sendgrid:
+    enabled: true
+  
+  oauth:
+    google:
+      enabled: true
+    facebook:
+      enabled: false
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+    path: /metrics/prometheus
+  
+  grafana:
+    dashboards:
+      enabled: true
+
+# Health checks
+healthCheck:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  
+  readinessProbe:
+    httpGet:
+      path: /health/ready
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# Secrets (will be created separately)
+secrets:
+  database:
+    existingSecret: "strengthos-database-secret"
+    usernameKey: "username"
+    passwordKey: "password"
+  
+  redis:
+    existingSecret: "strengthos-redis-secret"
+    passwordKey: "password"
+  
+  jwt:
+    existingSecret: "strengthos-jwt-secret"
+    accessSecretKey: "access-secret"
+    refreshSecretKey: "refresh-secret"
+  
+  stripe:
+    existingSecret: "strengthos-stripe-secret"
+    secretKeyKey: "secret-key"
+    webhookSecretKey: "webhook-secret"
+
+# PostgreSQL dependency configuration
+postgresql:
+  enabled: false  # Use external database in production
+  auth:
+    postgresPassword: ""
+    username: strengthos
+    password: ""
+    database: strengthos
+
+# Redis dependency configuration
+redis:
+  enabled: false  # Use external Redis in production
+  auth:
+    enabled: true
+    password: ""
+  
+  master:
+    persistence:
+      enabled: true
+      size: 8Gi
+
+# Network policies
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+      ports:
+      - protocol: TCP
+        port: 3000
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: monitoring
+      ports:
+      - protocol: TCP
+        port: 3000
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1

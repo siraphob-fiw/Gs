@@ -1,0 +1,672 @@
+// User Management & Multi-Tenancy Enums
+// Comprehensive enum definitions for the StrengthOS user management system
+
+// ============================================================================
+// USER & ROLE ENUMS
+// ============================================================================
+
+export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  COACH_ADMIN = 'COACH_ADMIN',
+  COACH = 'COACH',
+  ATHLETE = 'ATHLETE',
+  SELF_COACHED = 'SELF_COACHED',
+  TENANT_ADMIN = 'TENANT_ADMIN',
+}
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  PENDING_VERIFICATION = 'PENDING_VERIFICATION',
+  PENDING_APPROVAL = 'PENDING_APPROVAL',
+}
+
+export enum ExperienceLevel {
+  BEGINNER = 'BEGINNER',
+  NOVICE = 'NOVICE',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCED = 'ADVANCED',
+  ELITE = 'ELITE',
+}
+
+// ============================================================================
+// TENANT & ORGANIZATION ENUMS
+// ============================================================================
+
+export enum TenantStatus {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  CANCELLED = 'CANCELLED',
+  TRIAL = 'TRIAL',
+  PENDING_SETUP = 'PENDING_SETUP',
+  DELINQUENT = 'DELINQUENT',
+}
+
+// SubscriptionStatus is defined in payment-processing.ts
+
+export enum RelationshipStatus {
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  PAUSED = 'PAUSED',
+  TERMINATED = 'TERMINATED',
+  SUSPENDED = 'SUSPENDED',
+}
+
+// ============================================================================
+// TRANSITION & WORKFLOW ENUMS
+// ============================================================================
+
+export enum TransitionType {
+  COACH_TO_COACH = 'COACH_TO_COACH',
+  COACH_TO_SELF = 'COACH_TO_SELF',
+  SELF_TO_COACH = 'SELF_TO_COACH',
+  COACH_ADMIN_REASSIGNMENT = 'COACH_ADMIN_REASSIGNMENT',
+  TENANT_TRANSFER = 'TENANT_TRANSFER',
+}
+
+export enum TransitionStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+  FAILED = 'FAILED',
+  ROLLED_BACK = 'ROLLED_BACK',
+}
+
+// ============================================================================
+// EQUIPMENT & TRAINING ENUMS
+// ============================================================================
+
+export enum EquipmentType {
+  BARBELL = 'BARBELL',
+  DUMBBELL = 'DUMBBELL',
+  KETTLEBELL = 'KETTLEBELL',
+  CABLE_MACHINE = 'CABLE_MACHINE',
+  SMITH_MACHINE = 'SMITH_MACHINE',
+  POWER_RACK = 'POWER_RACK',
+  SQUAT_RACK = 'SQUAT_RACK',
+  BENCH = 'BENCH',
+  PULL_UP_BAR = 'PULL_UP_BAR',
+  DIP_STATION = 'DIP_STATION',
+  LEG_PRESS = 'LEG_PRESS',
+  LEG_CURL = 'LEG_CURL',
+  LEG_EXTENSION = 'LEG_EXTENSION',
+  LAT_PULLDOWN = 'LAT_PULLDOWN',
+  SEATED_ROW = 'SEATED_ROW',
+  CHEST_PRESS = 'CHEST_PRESS',
+  SHOULDER_PRESS = 'SHOULDER_PRESS',
+  PREACHER_CURL = 'PREACHER_CURL',
+  TRICEP_DIP = 'TRICEP_DIP',
+  CALF_RAISE = 'CALF_RAISE',
+  FUNCTIONAL_TRAINER = 'FUNCTIONAL_TRAINER',
+  SUSPENSION_TRAINER = 'SUSPENSION_TRAINER',
+  RESISTANCE_BANDS = 'RESISTANCE_BANDS',
+  MEDICINE_BALL = 'MEDICINE_BALL',
+  STABILITY_BALL = 'STABILITY_BALL',
+  FOAM_ROLLER = 'FOAM_ROLLER',
+  CARDIO_EQUIPMENT = 'CARDIO_EQUIPMENT',
+  OTHER = 'OTHER',
+}
+
+export enum EquipmentCondition {
+  EXCELLENT = 'EXCELLENT',
+  GOOD = 'GOOD',
+  FAIR = 'FAIR',
+  POOR = 'POOR',
+  NEEDS_REPAIR = 'NEEDS_REPAIR',
+  OUT_OF_SERVICE = 'OUT_OF_SERVICE',
+}
+
+export enum PlateMaterial {
+  IRON = 'IRON',
+  STEEL = 'STEEL',
+  RUBBER = 'RUBBER',
+  URETHANE = 'URETHANE',
+  BUMPER = 'BUMPER',
+  COMPETITION = 'COMPETITION',
+}
+
+export enum PlateType {
+  STANDARD = 'STANDARD',
+  OLYMPIC = 'OLYMPIC',
+  BUMPER = 'BUMPER',
+  FRACTIONAL = 'FRACTIONAL',
+  CALIBRATED = 'CALIBRATED',
+  CHANGE = 'CHANGE',
+}
+
+export enum Discipline {
+  BODYBUILDING = 'BODYBUILDING',
+  SPORTS_SPECIFIC = 'SPORTS_SPECIFIC',
+  POWERBUILDING = 'POWERBUILDING', 
+}
+
+export enum TrainingGoal {
+  STRENGTH = 'STRENGTH',
+  HYPERTROPHY = 'HYPERTROPHY',
+  MUSCLE_GAIN = 'MUSCLE_GAIN',
+  POWER = 'POWER',
+  ENDURANCE = 'ENDURANCE',
+  WEIGHT_LOSS = 'WEIGHT_LOSS',
+  WEIGHT_GAIN = 'WEIGHT_GAIN',
+  REHABILITATION = 'REHABILITATION',
+  MAINTENANCE = 'MAINTENANCE',
+  COMPETITION_PREP = 'COMPETITION_PREP',
+  GENERAL_FITNESS = 'GENERAL_FITNESS',
+}
+
+// ============================================================================
+// HEALTH & ACCESSIBILITY ENUMS
+// ============================================================================
+
+export enum DisabilityType {
+  MOBILITY = 'MOBILITY',
+  VISUAL = 'VISUAL',
+  HEARING = 'HEARING',
+  COGNITIVE = 'COGNITIVE',
+  CHRONIC_PAIN = 'CHRONIC_PAIN',
+  NEUROLOGICAL = 'NEUROLOGICAL',
+  CARDIOVASCULAR = 'CARDIOVASCULAR',
+  RESPIRATORY = 'RESPIRATORY',
+  AUTOIMMUNE = 'AUTOIMMUNE',
+  OTHER = 'OTHER',
+}
+
+export enum AccommodationType {
+  EQUIPMENT_MODIFICATION = 'EQUIPMENT_MODIFICATION',
+  EXERCISE_SUBSTITUTION = 'EXERCISE_SUBSTITUTION',
+  RANGE_OF_MOTION = 'RANGE_OF_MOTION',
+  ASSISTANCE_REQUIRED = 'ASSISTANCE_REQUIRED',
+  ENVIRONMENTAL = 'ENVIRONMENTAL',
+  COMMUNICATION = 'COMMUNICATION',
+  TIMING = 'TIMING',
+}
+
+export enum ModificationType {
+  SUBSTITUTE = 'SUBSTITUTE',
+  MODIFY_RANGE = 'MODIFY_RANGE',
+  REDUCE_LOAD = 'REDUCE_LOAD',
+  CHANGE_POSITION = 'CHANGE_POSITION',
+  ADD_SUPPORT = 'ADD_SUPPORT',
+  UNILATERAL = 'UNILATERAL',
+  ASSISTED = 'ASSISTED',
+  AVOID = 'AVOID',
+  ALTERNATIVE_EXERCISE = 'ALTERNATIVE_EXERCISE',
+  RANGE_OF_MOTION = 'RANGE_OF_MOTION',
+  INTENSITY = 'INTENSITY',
+  VOLUME = 'VOLUME',
+  EQUIPMENT = 'EQUIPMENT',
+}
+
+export enum Joint {
+  SHOULDER = 'SHOULDER',
+  ELBOW = 'ELBOW',
+  WRIST = 'WRIST',
+  HIP = 'HIP',
+  KNEE = 'KNEE',
+  ANKLE = 'ANKLE',
+  SPINE = 'SPINE',
+  NECK = 'NECK',
+  THORACIC_SPINE = 'THORACIC_SPINE',
+  LUMBAR_SPINE = 'LUMBAR_SPINE',
+  CERVICAL_SPINE = 'CERVICAL_SPINE',
+  SACROILIAC = 'SACROILIAC',
+}
+
+export enum MovementPlane {
+  SAGITTAL = 'SAGITTAL',
+  FRONTAL = 'FRONTAL',
+  TRANSVERSE = 'TRANSVERSE',
+  COMBINED = 'COMBINED',
+}
+
+export enum RestrictionType {
+  FLEXION = 'FLEXION',
+  EXTENSION = 'EXTENSION',
+  ABDUCTION = 'ABDUCTION',
+  ADDUCTION = 'ADDUCTION',
+  ROTATION = 'ROTATION',
+  LATERAL_FLEXION = 'LATERAL_FLEXION',
+  CIRCUMDUCTION = 'CIRCUMDUCTION',
+  WEIGHT_BEARING = 'WEIGHT_BEARING',
+  PARTIAL = 'PARTIAL',
+  COMPLETE = 'COMPLETE',
+}
+
+export enum SeverityLevel {
+  LOW = 'LOW',
+  MILD = 'MILD',
+  MEDIUM = 'MEDIUM',
+  MODERATE = 'MODERATE',
+  HIGH = 'HIGH',
+  SEVERE = 'SEVERE',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum CyclePhase {
+  MENSTRUAL = 'MENSTRUAL',
+  FOLLICULAR = 'FOLLICULAR',
+  OVULATORY = 'OVULATORY',
+  LUTEAL = 'LUTEAL',
+}
+
+export enum CyclePrivacyLevel {
+  PRIVATE = 'PRIVATE',
+  COACH_ONLY = 'COACH_ONLY',
+  AGGREGATED_ONLY = 'AGGREGATED_ONLY',
+  RESEARCH_ONLY = 'RESEARCH_ONLY',
+}
+
+export enum SymptomType {
+  CRAMPS = 'CRAMPS',
+  BLOATING = 'BLOATING',
+  FATIGUE = 'FATIGUE',
+  MOOD_CHANGES = 'MOOD_CHANGES',
+  HEADACHE = 'HEADACHE',
+  BREAST_TENDERNESS = 'BREAST_TENDERNESS',
+  BACK_PAIN = 'BACK_PAIN',
+  NAUSEA = 'NAUSEA',
+  ACNE = 'ACNE',
+  FOOD_CRAVINGS = 'FOOD_CRAVINGS',
+  SLEEP_DISTURBANCE = 'SLEEP_DISTURBANCE',
+  JOINT_PAIN = 'JOINT_PAIN',
+}
+
+// ============================================================================
+// SCHEDULE & TIME ENUMS
+// ============================================================================
+
+export enum TimeOfDay {
+  EARLY_MORNING = 'EARLY_MORNING', // 5-8 AM
+  MORNING = 'MORNING', // 8-11 AM
+  LATE_MORNING = 'LATE_MORNING', // 11 AM-12 PM
+  EARLY_AFTERNOON = 'EARLY_AFTERNOON', // 12-2 PM
+  AFTERNOON = 'AFTERNOON', // 2-5 PM
+  EARLY_EVENING = 'EARLY_EVENING', // 5-7 PM
+  EVENING = 'EVENING', // 7-9 PM
+  LATE_EVENING = 'LATE_EVENING', // 9-11 PM
+  NIGHT = 'NIGHT', // 11 PM-5 AM
+}
+
+export enum TimePreferenceLevel {
+  PREFERRED = 'PREFERRED',
+  ACCEPTABLE = 'ACCEPTABLE',
+  AVOID = 'AVOID',
+  UNAVAILABLE = 'UNAVAILABLE',
+}
+
+export enum FlexibilityLevel {
+  RIGID = 'RIGID',
+  SOMEWHAT_FLEXIBLE = 'SOMEWHAT_FLEXIBLE',
+  FLEXIBLE = 'FLEXIBLE',
+  VERY_FLEXIBLE = 'VERY_FLEXIBLE',
+}
+
+export enum ConsiderationType {
+  WORK_SCHEDULE = 'WORK_SCHEDULE',
+  FAMILY_OBLIGATIONS = 'FAMILY_OBLIGATIONS',
+  TRAVEL = 'TRAVEL',
+  MEDICAL_APPOINTMENTS = 'MEDICAL_APPOINTMENTS',
+  OTHER_ACTIVITIES = 'OTHER_ACTIVITIES',
+  ENERGY_LEVELS = 'ENERGY_LEVELS',
+  GYM_AVAILABILITY = 'GYM_AVAILABILITY',
+  TRANSPORTATION = 'TRANSPORTATION',
+}
+
+export enum PriorityLevel {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+// ============================================================================
+// NOTIFICATION & COMMUNICATION ENUMS
+// ============================================================================
+
+export enum NotificationType {
+  SYSTEM_ALERT = 'SYSTEM_ALERT',
+  WORKOUT_REMINDER = 'WORKOUT_REMINDER',
+  PROGRESS_UPDATE = 'PROGRESS_UPDATE',
+  COACH_MESSAGE = 'COACH_MESSAGE',
+  ATHLETE_MESSAGE = 'ATHLETE_MESSAGE',
+  TRANSITION_REQUEST = 'TRANSITION_REQUEST',
+  TRANSITION_APPROVED = 'TRANSITION_APPROVED',
+  TRANSITION_REJECTED = 'TRANSITION_REJECTED',
+  SUBSCRIPTION_UPDATE = 'SUBSCRIPTION_UPDATE',
+  PAYMENT_REMINDER = 'PAYMENT_REMINDER',
+  SECURITY_ALERT = 'SECURITY_ALERT',
+  FEATURE_UPDATE = 'FEATURE_UPDATE',
+  MAINTENANCE_NOTICE = 'MAINTENANCE_NOTICE',
+  WELCOME = 'WELCOME',
+  PASSWORD_RESET = 'PASSWORD_RESET',
+  EMAIL_VERIFICATION = 'EMAIL_VERIFICATION',
+  COACH_REQUEST = 'COACH_REQUEST',
+  COACH_REQUEST_RESPONSE = 'COACH_REQUEST_RESPONSE',
+  // Wellness and health-related notifications
+  WELLNESS_CHECKIN = 'WELLNESS_CHECKIN',
+  WELLNESS_SUMMARY = 'WELLNESS_SUMMARY',
+  COACH_ALERT = 'COACH_ALERT',
+  // System and marketing notifications
+  SYSTEM_UPDATE = 'SYSTEM_UPDATE',
+  MARKETING_EMAIL = 'MARKETING_EMAIL',
+  // Legacy compatibility (keeping EMAIL for backward compatibility)
+  EMAIL = 'EMAIL',
+}
+
+export enum NotificationStatus {
+  PENDING = 'PENDING',
+  SENT = 'SENT',
+  DELIVERED = 'DELIVERED',
+  READ = 'READ',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+}
+
+// Notification priority enum (alias for PriorityLevel from notification-types)
+export enum NotificationPriority {
+  LOW = 'LOW',
+  NORMAL = 'NORMAL',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  URGENT = 'URGENT'
+}
+
+export enum NotificationFrequency {
+  IMMEDIATE = 'IMMEDIATE',
+  HOURLY = 'HOURLY',
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  NEVER = 'NEVER',
+}
+
+// ============================================================================
+// PRIVACY & SECURITY ENUMS
+// ============================================================================
+
+export enum ProfileVisibility {
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE',
+  COACHES_ONLY = 'COACHES_ONLY',
+  ORGANIZATION_ONLY = 'ORGANIZATION_ONLY',
+}
+
+export enum ConsentType {
+  TERMS_OF_SERVICE = 'TERMS_OF_SERVICE',
+  PRIVACY_POLICY = 'PRIVACY_POLICY',
+  DATA_PROCESSING = 'DATA_PROCESSING',
+  MARKETING_COMMUNICATIONS = 'MARKETING_COMMUNICATIONS',
+  RESEARCH_PARTICIPATION = 'RESEARCH_PARTICIPATION',
+  HEALTH_DATA_SHARING = 'HEALTH_DATA_SHARING',
+  VIDEO_RECORDING = 'VIDEO_RECORDING',
+  PERFORMANCE_ANALYTICS = 'PERFORMANCE_ANALYTICS',
+}
+
+export enum SecurityEventType {
+  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+  LOGIN_FAILURE = 'LOGIN_FAILURE',
+  LOGOUT = 'LOGOUT',
+  PASSWORD_CHANGE = 'PASSWORD_CHANGE',
+  PASSWORD_RESET = 'PASSWORD_RESET',
+  EMAIL_CHANGE = 'EMAIL_CHANGE',
+  ROLE_CHANGE = 'ROLE_CHANGE',
+  PERMISSION_GRANT = 'PERMISSION_GRANT',
+  PERMISSION_REVOKE = 'PERMISSION_REVOKE',
+  DATA_ACCESS = 'DATA_ACCESS',
+  DATA_MODIFICATION = 'DATA_MODIFICATION',
+  DATA_DELETION = 'DATA_DELETION',
+  TENANT_ACCESS_VIOLATION = 'TENANT_ACCESS_VIOLATION',
+  SUSPICIOUS_ACTIVITY = 'SUSPICIOUS_ACTIVITY',
+  ACCOUNT_LOCKOUT = 'ACCOUNT_LOCKOUT',
+  SESSION_TIMEOUT = 'SESSION_TIMEOUT',
+  API_KEY_USAGE = 'API_KEY_USAGE',
+  EXPORT_REQUEST = 'EXPORT_REQUEST',
+  IMPORT_REQUEST = 'IMPORT_REQUEST',
+}
+
+export enum ConditionOperator {
+  EQUALS = 'EQUALS',
+  NOT_EQUALS = 'NOT_EQUALS',
+  GREATER_THAN = 'GREATER_THAN',
+  LESS_THAN = 'LESS_THAN',
+  GREATER_THAN_OR_EQUAL = 'GREATER_THAN_OR_EQUAL',
+  LESS_THAN_OR_EQUAL = 'LESS_THAN_OR_EQUAL',
+  CONTAINS = 'CONTAINS',
+  NOT_CONTAINS = 'NOT_CONTAINS',
+  STARTS_WITH = 'STARTS_WITH',
+  ENDS_WITH = 'ENDS_WITH',
+  IN = 'IN',
+  NOT_IN = 'NOT_IN',
+  IS_NULL = 'IS_NULL',
+  IS_NOT_NULL = 'IS_NOT_NULL',
+}
+
+// ============================================================================
+// ERROR & VALIDATION ENUMS
+// ============================================================================
+
+export enum ErrorType {
+  AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR',
+  AUTHORIZATION_ERROR = 'AUTHORIZATION_ERROR',
+  TENANT_ISOLATION_ERROR = 'TENANT_ISOLATION_ERROR',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  TRANSITION_ERROR = 'TRANSITION_ERROR',
+  BILLING_ERROR = 'BILLING_ERROR',
+  EXTERNAL_SERVICE_ERROR = 'EXTERNAL_SERVICE_ERROR',
+  DATA_INTEGRITY_ERROR = 'DATA_INTEGRITY_ERROR',
+  RATE_LIMIT_ERROR = 'RATE_LIMIT_ERROR',
+  RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND',
+  CONFLICT_ERROR = 'CONFLICT_ERROR',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+}
+
+export enum ValidationErrorCode {
+  REQUIRED_FIELD = 'REQUIRED_FIELD',
+  INVALID_FORMAT = 'INVALID_FORMAT',
+  INVALID_LENGTH = 'INVALID_LENGTH',
+  INVALID_RANGE = 'INVALID_RANGE',
+  DUPLICATE_VALUE = 'DUPLICATE_VALUE',
+  INVALID_REFERENCE = 'INVALID_REFERENCE',
+  BUSINESS_RULE_VIOLATION = 'BUSINESS_RULE_VIOLATION',
+  CONSTRAINT_VIOLATION = 'CONSTRAINT_VIOLATION',
+}
+
+// ============================================================================
+// AUDIT & COMPLIANCE ENUMS
+// ============================================================================
+
+export enum AuditAction {
+  CREATE = 'CREATE',
+  READ = 'READ',
+  UPDATE = 'UPDATE',
+  DELETE = 'DELETE',
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  EXPORT = 'EXPORT',
+  IMPORT = 'IMPORT',
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+  SUSPEND = 'SUSPEND',
+  ACTIVATE = 'ACTIVATE',
+  ARCHIVE = 'ARCHIVE',
+  RESTORE = 'RESTORE',
+}
+
+export enum AuditEventType {
+  USER_CREATED = 'USER_CREATED',
+  USER_UPDATED = 'USER_UPDATED',
+  USER_DELETED = 'USER_DELETED',
+  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+  LOGIN_FAILURE = 'LOGIN_FAILURE',
+  LOGOUT = 'LOGOUT',
+  PASSWORD_CHANGED = 'PASSWORD_CHANGED',
+  PASSWORD_RESET = 'PASSWORD_RESET',
+  EMAIL_CHANGED = 'EMAIL_CHANGED',
+  ROLE_ASSIGNED = 'ROLE_ASSIGNED',
+  ROLE_REVOKED = 'ROLE_REVOKED',
+  PERMISSIONS_UPDATED = 'PERMISSIONS_UPDATED',
+  RELATIONSHIP_CREATED = 'RELATIONSHIP_CREATED',
+  RELATIONSHIP_UPDATED = 'RELATIONSHIP_UPDATED',
+  RELATIONSHIP_TERMINATED = 'RELATIONSHIP_TERMINATED',
+  SECURITY_VIOLATION = 'SECURITY_VIOLATION',
+  DATA_EXPORT = 'DATA_EXPORT',
+  DATA_IMPORT = 'DATA_IMPORT',
+  TENANT_CREATED = 'TENANT_CREATED',
+  TENANT_UPDATED = 'TENANT_UPDATED',
+  TENANT_SUSPENDED = 'TENANT_SUSPENDED',
+  SUBSCRIPTION_CREATED = 'SUBSCRIPTION_CREATED',
+  SUBSCRIPTION_UPDATED = 'SUBSCRIPTION_UPDATED',
+  SUBSCRIPTION_CANCELLED = 'SUBSCRIPTION_CANCELLED',
+  PAYMENT_PROCESSED = 'PAYMENT_PROCESSED',
+  PAYMENT_FAILED = 'PAYMENT_FAILED',
+}
+
+export enum SecuritySeverity {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum SecurityCategory {
+  AUTHENTICATION_FAILURE = 'AUTHENTICATION_FAILURE',
+  AUTHORIZATION_VIOLATION = 'AUTHORIZATION_VIOLATION',
+  DATA_ACCESS_VIOLATION = 'DATA_ACCESS_VIOLATION',
+  POLICY_VIOLATION = 'POLICY_VIOLATION',
+  SUSPICIOUS_ACTIVITY = 'SUSPICIOUS_ACTIVITY',
+  SYSTEM_COMPROMISE = 'SYSTEM_COMPROMISE',
+  DATA_BREACH = 'DATA_BREACH',
+}
+
+export enum SecurityEventStatus {
+  OPEN = 'OPEN',
+  INVESTIGATING = 'INVESTIGATING',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+  FALSE_POSITIVE = 'FALSE_POSITIVE',
+}
+
+export enum ComplianceFramework {
+  GDPR = 'GDPR',
+  PDPA = 'PDPA',
+  HIPAA = 'HIPAA',
+  CCPA = 'CCPA',
+  SOX = 'SOX',
+  ISO27001 = 'ISO27001',
+  PCI_DSS = 'PCI_DSS',
+}
+
+export enum DataClassification {
+  PUBLIC = 'PUBLIC',
+  INTERNAL = 'INTERNAL',
+  CONFIDENTIAL = 'CONFIDENTIAL',
+  RESTRICTED = 'RESTRICTED',
+  PERSONAL = 'PERSONAL',
+  SENSITIVE_PERSONAL = 'SENSITIVE_PERSONAL',
+  HEALTH = 'HEALTH',
+  FINANCIAL = 'FINANCIAL',
+}
+
+// ============================================================================
+// INTEGRATION & API ENUMS
+// ============================================================================
+
+export enum IntegrationType {
+  OAUTH = 'OAUTH',
+  API_KEY = 'API_KEY',
+  WEBHOOK = 'WEBHOOK',
+  SSO = 'SSO',
+  SAML = 'SAML',
+  LDAP = 'LDAP',
+}
+
+export enum APIVersion {
+  V1 = 'V1',
+  V2 = 'V2',
+  BETA = 'BETA',
+  DEPRECATED = 'DEPRECATED',
+}
+
+export enum RateLimitType {
+  PER_USER = 'PER_USER',
+  PER_TENANT = 'PER_TENANT',
+  PER_IP = 'PER_IP',
+  PER_API_KEY = 'PER_API_KEY',
+  GLOBAL = 'GLOBAL',
+}
+
+// ============================================================================
+// FEATURE FLAGS & CONFIGURATION ENUMS
+// ============================================================================
+
+export enum FeatureFlagType {
+  BOOLEAN = 'BOOLEAN',
+  STRING = 'STRING',
+  NUMBER = 'NUMBER',
+  JSON = 'JSON',
+  PERCENTAGE = 'PERCENTAGE',
+}
+
+export enum FeatureFlagStatus {
+  ENABLED = 'ENABLED',
+  DISABLED = 'DISABLED',
+  TESTING = 'TESTING',
+  DEPRECATED = 'DEPRECATED',
+}
+
+export enum ConfigurationType {
+  SYSTEM = 'SYSTEM',
+  TENANT = 'TENANT',
+  USER = 'USER',
+  FEATURE = 'FEATURE',
+  INTEGRATION = 'INTEGRATION',
+}
+
+// ============================================================================
+// LOCALIZATION & INTERNATIONALIZATION ENUMS
+// ============================================================================
+
+export enum SupportedLanguage {
+  EN = 'EN', // English
+  TH = 'TH', // Thai
+  ZH = 'ZH', // Chinese
+  JA = 'JA', // Japanese
+  KO = 'KO', // Korean
+  ES = 'ES', // Spanish
+  FR = 'FR', // French
+  DE = 'DE', // German
+  IT = 'IT', // Italian
+  PT = 'PT', // Portuguese
+  RU = 'RU', // Russian
+  AR = 'AR', // Arabic
+}
+
+export enum DateFormat {
+  ISO = 'YYYY-MM-DD',
+  US = 'MM/DD/YYYY',
+  EU = 'DD/MM/YYYY',
+  THAI = 'DD/MM/YYYY',
+  CHINESE = 'YYYY年MM月DD日',
+}
+
+export enum TimeFormat {
+  TWELVE_HOUR = '12',
+  TWENTY_FOUR_HOUR = '24',
+}
+
+// Currency and Region enums are defined in payment-processing.ts
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  NON_BINARY = 'NON_BINARY',
+  PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
+}
+
+export enum WeightUnit {
+  KG = 'KG',
+  LBS = 'LBS',
+}

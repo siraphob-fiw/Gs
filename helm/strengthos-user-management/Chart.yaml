@@ -1,0 +1,30 @@
+apiVersion: v2
+name: strengthos-user-management
+description: A Helm chart for StrengthOS User Management API
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: postgresql
+    version: 12.1.9
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  
+  - name: redis
+    version: 17.3.7
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+
+keywords:
+  - strengthos
+  - user-management
+  - multi-tenant
+  - api
+
+maintainers:
+  - name: StrengthOS Team
+    email: dev@strengthos.com
+
+sources:
+  - https://github.com/strengthos/user-management-api

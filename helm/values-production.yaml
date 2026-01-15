@@ -1,0 +1,196 @@
+# Production values for strengthos-user-management
+replicaCount: 3
+
+image:
+  repository: ghcr.io/strengthos/user-management-api
+  pullPolicy: Always
+  tag: "latest"
+
+environment: production
+
+# Application configuration
+config:
+  nodeEnv: production
+  logLevel: info
+  port: 3000
+  
+  # Database configuration
+  database:
+    host: "postgres-prod.strengthos.com"
+    port: 5432
+    name: strengthos_prod
+    ssl: true
+    poolMin: 5
+    poolMax: 20
+  
+  # Redis configuration
+  redis:
+    host: "redis-prod.strengthos.com"
+    port: 6379
+    db: 0
+    keyPrefix: "strengthos:prod:"
+  
+  # JWT configuration
+  jwt:
+    accessTokenExpiry: "15m"
+    refreshTokenExpiry: "7d"
+  
+  # Rate limiting
+  rateLimit:
+    windowMs: 900000  # 15 minutes
+    max: 1000
+  
+  # CORS configuration
+  cors:
+    origin: ["https://app.strengthos.com", "https://admin.strengthos.com"]
+    credentials: true
+
+# External services
+externalServices:
+  stripe:
+    enabled: true
+  
+  sendgrid:
+    enabled: true
+  
+  oauth:
+    google:
+      enabled: true
+    facebook:
+      enabled: true
+
+# Monitoring configuration
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    path: /metrics/prometheus
+  
+  grafana:
+    dashboards:
+      enabled: true
+
+# Health checks
+healthCheck:
+  enabled: true
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 3
+  
+  readinessProbe:
+    httpGet:
+      path: /health/ready
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+# Resource limits for production
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 1000m
+    memory: 1Gi
+
+# Autoscaling
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "1000"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: api.strengthos.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: strengthos-api-tls
+      hosts:
+        - api.strengthos.com
+
+# Security
+podSecurityContext:
+  fsGroup: 1001
+  runAsNonRoot: true
+  runAsUser: 1001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+
+# Network policies
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+      ports:
+      - protocol: TCP
+        port: 3000
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: monitoring
+      ports:
+      - protocol: TCP
+        port: 3000
+
+# Pod disruption budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Node affinity for production
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-type
+          operator: In
+          values:
+          - production
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: In
+          values:
+          - strengthos-user-management
+      topologyKey: kubernetes.io/hostname
+
+# Tolerations for production nodes
+tolerations:
+  - key: "production"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"

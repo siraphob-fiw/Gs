@@ -1,0 +1,72 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+{
+  "name": "StrengthOS Modular SaaS Platform",
+  "description": "A multi-tenant, extensible SaaS platform for strength athletes and coaches. Built with NestJS, Prisma, and Next.js using monorepo architecture with shared libraries, multi-role access, health tracking integrations, and AI-powered feedback systems.",
+  "instructions": {
+    "architecture": {
+      "pattern": "monorepo",
+      "structure": {
+        "apps/api": "NestJS backend with domain modules for users, plans, sessions, logs, reviews, competitions, injuries, auth, and health tracking",
+        "apps/admin": "Next.js frontend dashboard for admins and coaches",
+        "apps/user-portal": "Next.js frontend portal for athletes (self-coached or assigned)",
+        "packages/shared-types": "Prisma-independent global TS types for User, Plan, Exercise, Session, StressLog, etc.",
+        "packages/shared-auth": "JWT-based authentication, guards, decorators, Clerk/Auth0 adapter",
+        "packages/shared-utils": "Reusable helper functions (math, date, stress calculations, etc.)",
+        "packages/shared-config": "env loader, constant exports, locale config",
+        "packages/shared-errors": "Typed error system (AppError, NotFoundError, AuthError)",
+        "packages/shared-validation": "Zod schemas and NestJS DTO validators",
+        "packages/shared-security": "RBAC permissions, role decorators, policy guards",
+        "packages/shared-ui": "Reusable Tailwind UI components (Form, Button, Card, Modal)",
+        "packages/shared-storage": "S3 uploader/downloader abstraction",
+        "packages/shared-notifications": "Web/email/push notification service",
+        "libs/shared-i18n": "Language keys and i18n helpers",
+        "packages/shared-mocks": "Faker-based mock generators for all major domain entities",
+        "packages/shared-compliance": "Rules for consent logging, PII/PHI masking, audit trail decorators, and data protection helpers"
+      }
+    },
+    "code_conventions": {
+      "language": "TypeScript",
+      "nest_version": "10+",
+      "frontend": "Next.js + TailwindCSS",
+      "test_framework": "Jest",
+      "validation": "Zod or class-validator (via shared-validation)",
+      "style": {
+        "naming": "camelCase for variables/functions, PascalCase for types/classes",
+        "modules": "Use NestJS Modules, Services, Controllers cleanly separated",
+        "exports": "No wildcard exports; named explicit exports only",
+        "types": "Strict types from shared-types only; no Prisma types in business logic"
+      },
+      "multi_tenancy": {
+        "strategy": "Tenant context via user.role and assigned organization or tenant ID in JWT",
+        "enforcement": "Use guards or interceptors to scope data access by tenant or coach/user relationship"
+      },
+      "auth": {
+        "strategy": "JWT with optional refresh token",
+        "guard": "Use AuthGuard and @CurrentUser() from shared-auth",
+        "roles": "RBAC enforced via shared-security with enums and decorators"
+      }
+    },
+    "devops": {
+      "ci": "GitHub Actions for PR validation (lint, typecheck, test), build matrix, and Vercel preview deploys",
+      "env": "Use .env per app/package; provide .env.example templates",
+      "infra": "Docker and Terraform for AWS EC2/RDS. Optional serverless-ready path for future SQS/S3 integrations"
+    },
+    "goals": [
+      "Build modular, portable shared packages for reuse across backend and frontend",
+      "Abstract Prisma behind services to allow future data engine flexibility",
+      "Track user health data, injuries, body metrics, and performance trends",
+      "Support self-coached and coach-assigned flows with separate UIs",
+      "Enable localized UI and weights (kg/lbs), with future AI-based translations",
+      "Allow automatic and coach-based video feedback loops",
+      "Use DTO validation and Zod schemas across all input boundaries",
+      "Prepare API and UI modules for async mobile support and push notifications",
+      "Enable compliance tooling for audit logs, PII masking, and GDPR/PDPA/HIPAA alignment",
+"Track user consents for data use (e.g., video critiques, injury analysis, body photos)",
+"Implement audit decorators to log actions across health and training plan modules"
+    ]
+  }
+}

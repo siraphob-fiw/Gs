@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "strict": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@strengthos/shared-cache/*": ["../../libs/shared-cache/src/*"],
+      "@strengthos/shared-database/*": ["../../libs/shared-database/src/*"],
+      "@strengthos/shared-external/*": ["../../libs/shared-external/src/*"],
+      "@strengthos/shared-logging/*": ["../../libs/shared-logging/src/*"],
+      "@strengthos/shared-middleware/*": ["../../libs/shared-middleware/src/*"],
+      "@strengthos/shared-monitoring/*": ["../../libs/shared-monitoring/src/*"],
+      "@strengthos/shared-notifications/*": ["../../libs/shared-notifications/src/*"],
+      "@strengthos/shared-security/*": ["../../libs/shared-security/src/*"],
+      "@strengthos/shared-types/*": ["../../libs/shared-types/src/*"],
+      "@strengthos/shared-utils/*": ["../../libs/shared-utils/src/*"],
+      "@strengthos/shared-validation/*": ["../../libs/shared-validation/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

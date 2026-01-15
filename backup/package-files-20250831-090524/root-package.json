@@ -1,0 +1,54 @@
+{
+  "name": "strengthos-monorepo",
+  "version": "1.0.0",
+  "description": "StrengthOS - Modular, fullstack monorepo SaaS platform for strength athletes and coaches",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean",
+    "dev:api": "npm run start:dev --workspace=apps/sos-web-api",
+    "build:api": "npm run build --workspace=apps/sos-web-api",
+    "start:api": "npm run start:prod --workspace=apps/sos-web-api",
+    "dev:training": "npm run dev --workspace=apps/sos-web-training",
+    "build:training": "npm run build --workspace=apps/sos-web-training",
+    "start:training": "npm run start --workspace=apps/sos-web-training",
+    "install:all": "npm install",
+    "db:generate": "npm run db:generate --workspace=apps/sos-web-api",
+    "db:migrate": "npm run db:migrate --workspace=apps/sos-web-api",
+    "db:seed": "npm run db:seed --workspace=apps/sos-web-api"
+  },
+  "dependencies": {
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "turbo": "^1.12.4"
+  },
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.9.2"
+  },
+  "keywords": [
+    "monorepo",
+    "nextjs",
+    "fastify",
+    "nestjs",
+    "typescript",
+    "fitness",
+    "strength-training",
+    "saas",
+    "multi-tenant"
+  ],
+  "author": "Human Digital Solutions Co Ltd",
+  "license": "MIT"
+} 

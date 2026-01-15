@@ -1,0 +1,35 @@
+{
+  "name": "@strengthos/shared-external",
+  "version": "1.0.0",
+  "description": "External service integrations for StrengthOS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "@strengthos/shared-logging": "file:../shared-logging",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.6.0",
+    "rimraf": "^5.0.0"
+  },
+  "keywords": [
+    "strengthos",
+    "external",
+    "integrations",
+    "api",
+    "services"
+  ],
+  "author": "StrengthOS Team",
+  "license": "MIT"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@strengthos/shared-validation",
+  "version": "1.0.0",
+  "description": "Shared validation schemas and utilities for StrengthOS applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "joi": "^17.12.0",
+    "validator": "^13.11.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/joi": "^17.2.3",
+    "@types/validator": "^13.11.8",
+    "typescript": "^5.3.3",
+    "rimraf": "^5.0.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

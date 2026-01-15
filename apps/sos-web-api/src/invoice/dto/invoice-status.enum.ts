@@ -1,0 +1,9 @@
+export enum InvoiceStatusType {
+  'PENDING' = 'PENDING',
+  'PAID' = 'PAID',
+  'PAYMENTFAILED' = 'PAYMENTFAILED',
+  'SUCCESS' = 'SUCCESS',
+  'CANCELLED' = 'CANCELLED',
+  'DECLINED' = 'DECLINED',
+  'TIMEOUT' = 'TIMEOUT',
+}

@@ -1,0 +1,346 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**", ".next/**"],
+      "cache": true
+    },
+    "build:libs": {
+      "dependsOn": ["^build:libs"],
+      "outputs": ["dist/**"],
+      "cache": true,
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "package.json", "tsconfig.json"]
+    },
+    "build:ordered": {
+      "cache": false,
+      "dependsOn": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:watch": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.{ts,tsx,js,jsx}",
+        "**/*.{json,md}",
+        "!node_modules/**",
+        "!dist/**",
+        "!.next/**"
+      ]
+    },
+    "dev:libs": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev:libs"]
+    },
+    "dev:libs:watch": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^dev:libs:watch"]
+    },
+    "start": {
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"]
+    },
+    "typecheck": {
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "libs/shared-types#build": {
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-types#dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-types#dev:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "libs/naming-standards#build": {
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/naming-standards#dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "libs/naming-standards#dev:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-utils#build": {
+      "dependsOn": ["libs/shared-types#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-utils#dev": {
+      "dependsOn": ["libs/shared-types#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-utils#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-validation#build": {
+      "dependsOn": ["libs/shared-types#build", "libs/shared-utils#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-validation#dev": {
+      "dependsOn": ["libs/shared-types#dev", "libs/shared-utils#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-validation#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch", "libs/shared-utils#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-logging#build": {
+      "dependsOn": ["libs/shared-types#build", "libs/shared-utils#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-logging#dev": {
+      "dependsOn": ["libs/shared-types#dev", "libs/shared-utils#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-logging#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch", "libs/shared-utils#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-middleware#build": {
+      "dependsOn": ["libs/shared-types#build", "libs/shared-utils#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-middleware#dev": {
+      "dependsOn": ["libs/shared-types#dev", "libs/shared-utils#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-middleware#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch", "libs/shared-utils#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-external#build": {
+      "dependsOn": ["libs/shared-types#build", "libs/shared-utils#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-external#dev": {
+      "dependsOn": ["libs/shared-types#dev", "libs/shared-utils#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-external#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch", "libs/shared-utils#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-i18n#build": {
+      "dependsOn": ["libs/shared-types#build", "libs/shared-utils#build"],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-i18n#dev": {
+      "dependsOn": ["libs/shared-types#dev", "libs/shared-utils#dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-i18n#dev:watch": {
+      "dependsOn": ["libs/shared-types#dev:watch", "libs/shared-utils#dev:watch"],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-database#build": {
+      "dependsOn": [
+        "libs/shared-types#build", 
+        "libs/shared-utils#build", 
+        "libs/shared-validation#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-database#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev", 
+        "libs/shared-utils#dev", 
+        "libs/shared-validation#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-database#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch", 
+        "libs/shared-utils#dev:watch", 
+        "libs/shared-validation#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-monitoring#build": {
+      "dependsOn": [
+        "libs/shared-types#build", 
+        "libs/shared-utils#build", 
+        "libs/shared-logging#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-monitoring#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev", 
+        "libs/shared-utils#dev", 
+        "libs/shared-logging#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-monitoring#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch", 
+        "libs/shared-utils#dev:watch", 
+        "libs/shared-logging#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-notifications#build": {
+      "dependsOn": [
+        "libs/shared-types#build", 
+        "libs/shared-utils#build", 
+        "libs/shared-logging#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-notifications#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev", 
+        "libs/shared-utils#dev", 
+        "libs/shared-logging#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-notifications#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch", 
+        "libs/shared-utils#dev:watch", 
+        "libs/shared-logging#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-cache#build": {
+      "dependsOn": [
+        "libs/shared-types#build",
+        "libs/shared-utils#build",
+        "libs/shared-logging#build",
+        "libs/shared-database#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-cache#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev",
+        "libs/shared-utils#dev",
+        "libs/shared-logging#dev",
+        "libs/shared-database#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-cache#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch",
+        "libs/shared-utils#dev:watch",
+        "libs/shared-logging#dev:watch",
+        "libs/shared-database#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-security#build": {
+      "dependsOn": [
+        "libs/shared-types#build",
+        "libs/shared-utils#build", 
+        "libs/shared-logging#build",
+        "libs/shared-database#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-security#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev",
+        "libs/shared-utils#dev", 
+        "libs/shared-logging#dev",
+        "libs/shared-database#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-security#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch",
+        "libs/shared-utils#dev:watch", 
+        "libs/shared-logging#dev:watch",
+        "libs/shared-database#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-testing#build": {
+      "dependsOn": [
+        "libs/shared-types#build",
+        "libs/shared-utils#build",
+        "libs/shared-logging#build",
+        "libs/shared-database#build"
+      ],
+      "outputs": ["dist/**"],
+      "cache": true
+    },
+    "libs/shared-testing#dev": {
+      "dependsOn": [
+        "libs/shared-types#dev",
+        "libs/shared-utils#dev",
+        "libs/shared-logging#dev",
+        "libs/shared-database#dev"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "libs/shared-testing#dev:watch": {
+      "dependsOn": [
+        "libs/shared-types#dev:watch",
+        "libs/shared-utils#dev:watch",
+        "libs/shared-logging#dev:watch",
+        "libs/shared-database#dev:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

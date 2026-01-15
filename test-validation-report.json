@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-09-07T14:44:04.121Z",
+  "performance": {
+    "sos-web-api-tests": {
+      "unit": {
+        "duration": 2685,
+        "passed": false,
+        "target": 30000,
+        "withinTarget": true
+      },
+      "integration": {
+        "duration": 2002,
+        "passed": false,
+        "target": 60000,
+        "withinTarget": true
+      },
+      "e2e": {
+        "duration": 1867,
+        "passed": false,
+        "target": 120000,
+        "withinTarget": true
+      }
+    },
+    "sos-web-training-tests": {
+      "unit": {
+        "duration": 5661,
+        "passed": false,
+        "target": 30000,
+        "withinTarget": true
+      },
+      "integration": {
+        "duration": 2884,
+        "passed": true,
+        "target": 60000,
+        "withinTarget": true
+      },
+      "e2e": {
+        "duration": 63611,
+        "passed": false,
+        "target": 120000,
+        "withinTarget": true
+      }
+    }
+  },
+  "reliability": {
+    "sos-web-api-tests": {
+      "iterations": 3,
+      "passedCount": 0,
+      "reliability": 0,
+      "avgDuration": null,
+      "results": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "duration": 1109,
+          "exitCode": 1
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "duration": 1226,
+          "exitCode": 1
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "duration": 1516,
+          "exitCode": 1
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "sos-web-api-tests": {
+      "statements": 0,
+      "branches": 0,
+      "functions": 0,
+      "lines": 0,
+      "passed": false
+    }
+  },
+  "errors": [],
+  "warnings": [],
+  "summary": {
+    "totalTestApps": 2,
+    "performanceTargetsMet": 6,
+    "totalPerformanceTests": 6,
+    "averageReliability": 0,
+    "totalErrors": 0,
+    "totalWarnings": 0,
+    "performanceScore": 100
+  },
+  "testApplications": [
+    "example-new-app-tests",
+    "sos-web-api-tests",
+    "sos-web-training-tests"
+  ]
+}

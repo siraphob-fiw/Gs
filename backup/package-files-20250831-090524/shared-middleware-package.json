@@ -1,0 +1,30 @@
+{
+  "name": "@strengthos/shared-middleware",
+  "version": "1.0.0",
+  "description": "Shared middleware for StrengthOS applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "@strengthos/shared-logging": "file:../shared-logging",
+    "fastify": "^5.2.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.2",
+    "vitest": "^1.6.1",
+    "@types/node": "^20.14.9",
+    "@types/uuid": "^9.0.7"
+  },
+  "peerDependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "@strengthos/shared-logging": "file:../shared-logging"
+  }
+}

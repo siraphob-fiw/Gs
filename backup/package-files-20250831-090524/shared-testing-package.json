@@ -1,0 +1,38 @@
+{
+  "name": "@strengthos/shared-testing",
+  "version": "1.0.0",
+  "description": "Shared testing utilities, factories, and mocks for StrengthOS applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "@strengthos/shared-types": "file:../shared-types",
+    "@strengthos/shared-utils": "file:../shared-utils",
+    "@strengthos/shared-database": "file:../shared-database",
+    "@strengthos/shared-logging": "file:../shared-logging",
+    "uuid": "^9.0.1",
+    "@faker-js/faker": "^8.4.1",
+    "vitest": "^1.2.2",
+    "supertest": "^6.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@types/uuid": "^9.0.8",
+
+    "@types/supertest": "^6.0.2",
+    "typescript": "^5.3.3",
+    "rimraf": "^5.0.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
