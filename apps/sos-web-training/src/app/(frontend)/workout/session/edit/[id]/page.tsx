@@ -1956,7 +1956,7 @@ export const EditSessionPage = () => {
             </Button>
           </ModalHeader>
           <ModalBody className="py-4">
-            <p className="text-sm text-text/70 text-center mb-4">
+            <p className="text-sm text-textSecondary text-center mb-4">
               Move all exercises from Day {moveModal.day} to another day. If the target day has exercises, they will be swapped.
             </p>
             <div className="flex flex-wrap justify-center items-center gap-2">

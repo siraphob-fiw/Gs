@@ -6,6 +6,11 @@ import {
 } from '@strengthos/shared-types/src/user-management';
 
 export class UpdateTrainingPreferencesDto {
+  @ApiPropertyOptional({ description: 'Equipment profile' })
+  @IsOptional()
+  @IsString()
+  equipmentProfile?: string;
+
   @ApiPropertyOptional({ description: 'Language' })
   @IsOptional()
   @IsString()

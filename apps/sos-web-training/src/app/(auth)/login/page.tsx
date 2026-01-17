@@ -223,8 +223,8 @@ function LoginPageContent() {
           variant="bordered"
           onPress={toggleTheme}
           className={`p-3 rounded-full transition-colors duration-200 ${isDarkMode
-              ? 'bg-gray-800 hover:bg-textSecondary text-gray-300'
-              : 'bg-gray-100 hover:bg-gray-200 text-textSecondary'
+            ? 'bg-gray-800 hover:bg-textSecondary text-gray-300'
+            : 'bg-gray-100 hover:bg-gray-200 text-textSecondary'
             }`}
           aria-label="Toggle theme"
         >
@@ -253,7 +253,7 @@ function LoginPageContent() {
                 className={`text-4xl font-semibold mb-4 tracking-tight text-text`}
                 style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
               >
-                Human Lifting
+                Training Program
               </h1>
               <p className={`text-xl max-w-md text-text`}>
                 Elevate your strength training with intelligent programming and data-driven
@@ -294,7 +294,7 @@ function LoginPageContent() {
                 className={`text-2xl font-semibold tracking-tight text-text`}
                 style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
               >
-                Human Lifting
+                Training Program
               </h1>
             </div>
 
@@ -418,9 +418,9 @@ function LoginPageContent() {
             )}
 
             {/* Footer */}
-            <div className={`mt-8 text-center text-sm text-text`}>
-              <p>© 2025 Human Lifting. All rights reserved.</p>
-            </div>
+            {/* <div className={`mt-8 text-center text-sm text-text`}>
+              <p>© 2025 Training Program. All rights reserved.</p>
+            </div> */}
           </div>
         </div>
       </div>

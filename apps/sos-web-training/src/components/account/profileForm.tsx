@@ -16,7 +16,7 @@ import { parseDate } from '@internationalized/date';
 import { UserResponse } from '@/hooks/api/use-users';
 import { isPhoneNumber } from '@/utils/user-adapter';
 import { useTranslation } from '@/hooks/api/useTranslation';
-import { FaCalendar } from 'react-icons/fa';
+import { FaCalendar, FaUser } from 'react-icons/fa';
 import { useRoleAccess } from '@/hooks/api/use-role-access';
 import { FaBuilding } from 'react-icons/fa6';
 import dayjs from 'dayjs';
@@ -154,19 +154,19 @@ export default function ProfileFormContainer({
     setFormData((prev) => ({ ...prev, phone: e }));
   }, []);
 
-  const handleDateOfBirthChange = useCallback((value: number, format: 'year' | 'month' | 'day') => {
-    const baseData = formData.profile.dateOfBirth ? dayjs(formData.profile.dateOfBirth).valueOf() : dayjs().unix();
-    if(!value) return;
-    const jsDate = dayjs(baseData).set(format, value).toDate();
-    setFormData((prev) => ({
-      ...prev,
-      profile: {
-        ...prev.profile,
-        dateOfBirth: jsDate,
-      },
-    }));
-    setIsCalendarOpen(false);
-  }, []);
+  // const handleDateOfBirthChange = useCallback((value: number, format: 'year' | 'month' | 'day') => {
+  //   const baseData = formData.profile.dateOfBirth ? dayjs(formData.profile.dateOfBirth).valueOf() : dayjs().unix();
+  //   if(!value) return;
+  //   const jsDate = dayjs(baseData).set(format, value).toDate();
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     profile: {
+  //       ...prev.profile,
+  //       dateOfBirth: jsDate,
+  //     },
+  //   }));
+  //   setIsCalendarOpen(false);
+  // }, []);
 
   const handleRoleChange = useCallback((e: any) => {
     setFormData((prev) => ({
@@ -505,8 +505,8 @@ export default function ProfileFormContainer({
                 title: 'hidden',
               }}
               key={
-              
-                formData.profile.dateOfBirth &&   dayjs(formData.profile.dateOfBirth).isValid()
+
+                formData.profile.dateOfBirth && dayjs(formData.profile.dateOfBirth).isValid()
                   ? dayjs(formData.profile.dateOfBirth).format('YYYY-MM')
                   : dayjs().format('YYYY-MM')
               }
@@ -519,11 +519,11 @@ export default function ProfileFormContainer({
             label={t('Age')}
             variant="bordered"
             classNames={{
-              inputWrapper: 'bg-backgroundSecondary',
-              input: 'text-text',
+              inputWrapper: 'bg-backgroundSecondary data-[dis',
+              input: 'text-text data-[disabled=true]:text-text',
             }}
             value={dayjs().diff(dayjs(formData.profile.dateOfBirth), 'year').toString()}
-            disabled
+            isDisabled
           />
         )}
 
@@ -582,15 +582,14 @@ export default function ProfileFormContainer({
             classNames={{
               label: 'text-text',
               trigger: `bg-backgroundSecondary  
-              ${
-                formData.status === 'ACTIVE'
+              ${formData.status === 'ACTIVE'
                   ? 'data-[hover=true]:border-success data-[open=true]:border-success border-success'
                   : formData.status === 'INACTIVE'
                     ? 'data-[hover=true]:border-warning data-[open=true]:border-warning border-warning'
                     : formData.status === 'SUSPENDED'
                       ? 'data-[hover=true]:border-danger data-[open=true]:border-danger border-danger'
                       : 'data-[hover=true]:border-border data-[open=true]:border-border border-border'
-              }`,
+                }`,
               value: 'text-text group-data-[has-value=true]:text-text',
               listbox: 'rounded-md border border-border data-[hover=true]:bg-background',
               selectorIcon: 'text-text',
@@ -690,7 +689,18 @@ export default function ProfileFormContainer({
 
       <div className="font-medium">{t('physicalInformation')}</div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <SelectWithClassName
+        <Input
+          label={t('common.gender')}
+          variant="bordered"
+          classNames={{
+            inputWrapper: 'bg-backgroundSecondary',
+            input: 'text-text',
+          }}
+          value={formData.profile.gender?.toString() || ''}
+          isDisabled
+          endContent={<FaUser className="text-text" />}
+        />
+        {/* <SelectWithClassName
           fullwidth
           id="gender"
           label={t('gender')}
@@ -711,7 +721,7 @@ export default function ProfileFormContainer({
               ))}
             </>
           }
-        />
+        /> */}
         <Input
           label={t('weight')}
           variant="bordered"

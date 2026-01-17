@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Button, Input, SelectItem, Checkbox, CheckboxGroup, Divider, Switch } from '@heroui/react';
-import { MovementPattern, Discipline, ExperienceLevel } from '@strengthos/shared-types';
+import { MovementPattern, Discipline, ExperienceLevel, Equipment } from '@strengthos/shared-types';
 import { SelectWithClassName } from './selectWithClassName';
 import { ExerciseCategory } from '@/hooks/api/use-exercise-categories';
 
@@ -62,6 +62,7 @@ export const ExerciseForm = ({
       techniqueComplexity: 1,
       experienceLevel: 'BEGINNER' as ExperienceLevel,
       is_approved: false,
+      needEquipment: [],
     }),
     [],
   );
@@ -71,6 +72,7 @@ export const ExerciseForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customPatternInput, setCustomPatternInput] = useState('');
   const [customInjury, setCustomInjury] = useState('');
+  const [equipmentsData, setEquipmentsData] = useState<Equipment[]>([]);
   const [injuryContraindications, setInjuryContraindications] = useState([
     'SPRAIN',
     'STRAIN',
@@ -97,8 +99,8 @@ export const ExerciseForm = ({
         ...data,
         injuryContraindications: data.injuryContraindications
           ? data.injuryContraindications
-              .map((injury: string) => normalizeInjury(injury))
-              .filter((injury: string) => injury && injury.trim() && injury !== '_')
+            .map((injury: string) => normalizeInjury(injury))
+            .filter((injury: string) => injury && injury.trim() && injury !== '_')
           : [],
       };
       setFormData(normalizedData);
@@ -505,10 +507,10 @@ export const ExerciseForm = ({
         selectedKeys={
           formData?.injuryContraindications
             ? new Set(
-                formData.injuryContraindications.filter(
-                  (key: string) => key && key.trim() && injuryContraindications.includes(key),
-                ),
-              )
+              formData.injuryContraindications.filter(
+                (key: string) => key && key.trim() && injuryContraindications.includes(key),
+              ),
+            )
             : new Set()
         }
         onSelectionChange={(keys) => {
@@ -637,6 +639,36 @@ export const ExerciseForm = ({
           </Button>
         </div>
       )}
+
+      {!isReadonly && equipmentsData.length > 0 && (
+        <SelectWithClassName
+          fullWidth
+          id="equipment"
+          label="Equipment"
+          selectedKeys={formData?.needEquipment ? [formData.needEquipment] : []}
+          onSelectionChange={(keys) => {
+            setFormData((prev: any) => ({
+              ...prev,
+              needEquipment: Array.from(keys),
+            }));
+          }}
+          isDisabled={isReadonly}
+          classNames={{
+            base: `${isReadonly ? 'opacity-100 cursor-not-allowed' : ''}`,
+            trigger: `bg-surface data-[open=true]:border-border ${isReadonly ? 'opacity-100 cursor-not-allowed' : ''}`,
+            value: `group-data-[has-value=true]:text-text ${isReadonly ? 'opacity-100' : ''}`,
+            label: isReadonly ? 'opacity-100' : '',
+          }}
+          children={
+            <>
+              {equipmentsData?.map((equipment) => (
+                <SelectItem key={equipment.id}>{equipment.name}</SelectItem>
+              ))}
+            </>
+          }
+        />
+      )}
+
       {!isReadonly && (
         <div className="flex justify-end mb-4">
           <Button

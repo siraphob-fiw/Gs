@@ -27,7 +27,7 @@ export interface StartupHealthCheckResult {
 export class StartupHealthCheckService {
   private readonly logger = new Logger(StartupHealthCheckService.name);
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   /**
    * Performs comprehensive health checks on all critical services
@@ -206,6 +206,18 @@ export class StartupHealthCheckService {
 
     try {
       this.logger.debug('Checking Redis health...');
+
+      const isRedisEnabled = this.configService.get<string | boolean>('REDIS_ENABLED');
+      // Explicitly check for false (boolean) or 'false' (string) just in case
+      if (isRedisEnabled === false || isRedisEnabled === 'false') {
+        return {
+          service: 'redis',
+          status: 'healthy',
+          message: 'Redis is disabled',
+          responseTime: 0,
+          details: { reason: 'disabled_by_config' },
+        };
+      }
 
       const redisConfigResult = ConnectionConfigFactory.createRedisConfig();
       if (!redisConfigResult.isValid) {

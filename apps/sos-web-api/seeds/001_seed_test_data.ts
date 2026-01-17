@@ -21,8 +21,8 @@ export async function seed(knex: Knex): Promise<void> {
         availableLanguages: ['en'],
         maxCoaches: 0,
         maxAthletes: -1, // Unlimited for free tier
-        is_free: true,
       }),
+      is_free: true,
     },
     // Eastside Barbell Thailand (paid tenant)
     {

@@ -11,4 +11,4 @@ export * from './use-training-blocks';
 export * from './use-training-session';
 export * from './use-exercises';
 export * from './use-exercise-categories';
-
+export * from './use-equipment';

@@ -1,7 +1,7 @@
 // User Management & Multi-Tenancy Types
 // Core user management interfaces for the StrengthOS platform
 
-import { 
+import {
   UserRole,
   UserStatus,
   TenantStatus,
@@ -54,6 +54,7 @@ import { SubscriptionStatus } from './payment-types';
 export interface TrainingPreferences {
   weeklySchedule: WeeklyAvailability;
   exerciseBlacklist: string[];
+  equipmentProfile: string[];
 }
 
 export interface WeeklyAvailability {
@@ -600,6 +601,7 @@ export interface Tenant {
   subscription_info_details?: SubscriptionInfo | null;
   billing_info: BillingInfo;
   contact: { [key: string]: string };
+  availableEquipment: string[];
   created_at: Date;
   updated_at: Date;
   suspended_at?: Date;

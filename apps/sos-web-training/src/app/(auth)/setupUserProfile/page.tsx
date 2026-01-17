@@ -84,7 +84,7 @@ function SetupProfilePageContent() {
         color: 'success',
       });
       router.replace('/dashboard');
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (

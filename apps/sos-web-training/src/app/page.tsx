@@ -45,7 +45,7 @@ function HomePageContent() {
             <p className="mb-8 text-gray-700 text-center md:text-left max-w-lg">
               Coaching tools, athlete management, and adaptive programs all in one platform.
               <br />
-              Join StrengthOS Training to transform your strength journey today.
+              Join Training Program to transform your strength journey today.
             </p>
             <Button
               color="primary"
@@ -170,7 +170,7 @@ function HomePageContent() {
             />
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold mb-4 text-gray-900 text-center">
-            Welcome to StrengthOS Training!
+            Welcome to Training Program!
           </h1>
           <p className="mb-8 text-gray-700 text-center max-w-xl">
             Your hub for strength coaching, athlete management, and program design. Get started by

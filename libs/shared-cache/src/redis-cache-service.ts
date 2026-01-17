@@ -3,8 +3,8 @@ import Redis from 'ioredis';
 import { Results } from '@strengthos/shared-utils';
 import { ILogger } from '@strengthos/shared-logging';
 import { UserSession, Permission } from '@strengthos/shared-types';
-import { 
-  ConnectionConfigFactory, 
+import {
+  ConnectionConfigFactory,
   RedisConnectionConfig,
   ConfigurationError,
   ConnectionError
@@ -45,39 +45,39 @@ export interface IRedisCacheService {
   getSession(sessionId: string): Promise<Results<UserSession | null>>;
   deleteSession(sessionId: string): Promise<Results<boolean>>;
   deleteUserSessions(userId: string): Promise<Results<boolean>>;
-  
+
   // Permission Management
   setUserPermissions(userId: string, permissions: Permission[], ttlSeconds?: number): Promise<Results<boolean>>;
   getUserPermissions(userId: string): Promise<Results<Permission[] | null>>;
   deleteUserPermissions(userId: string): Promise<Results<boolean>>;
-  
+
   // Tenant Context Management
   setTenantContext(userId: string, tenantId: string, ttlSeconds?: number): Promise<Results<boolean>>;
   getTenantContext(userId: string): Promise<Results<string | null>>;
   deleteTenantContext(userId: string): Promise<Results<boolean>>;
-  
+
   // Tenant-Aware Caching
   setTenantData<T>(tenantId: string, key: string, data: T, ttlSeconds?: number): Promise<Results<boolean>>;
   getTenantData<T>(tenantId: string, key: string): Promise<Results<T | null>>;
   deleteTenantData(tenantId: string, key: string): Promise<Results<boolean>>;
   invalidateTenantCache(tenantId: string): Promise<Results<number>>;
-  
+
   // Generic Cache Operations
   get<T>(key: string): Promise<T | null>;
   set(key: string, value: any, ttlSeconds?: number): Promise<boolean>;
   delete(key: string): Promise<boolean>;
   deleteByPattern(pattern: string): Promise<number>;
-  
+
   // Cache Management
   flushAll(): Promise<Results<void>>;
   flushTenant(tenantId: string): Promise<Results<number>>;
   getMetrics(): Promise<Results<ICacheMetrics>>;
   healthCheck(): Promise<Results<boolean>>;
-  
+
   // Enhanced Connection Management
   validateConnection(): Promise<Results<{ isConnected: boolean; info: any }>>;
   disconnect(): Promise<Results<void>>;
-  
+
   // Performance Monitoring
   startPerformanceTimer(operation: string): string;
   endPerformanceTimer(timerId: string): number;
@@ -99,7 +99,7 @@ export class RedisCacheService implements IRedisCacheService {
 
   constructor(
     private readonly logger: ILogger,
-    private readonly config: ICacheConfig
+    private readonly config: ICacheConfig,
   ) {
     this.validateConfiguration();
     this.initializeRedis();
@@ -110,14 +110,14 @@ export class RedisCacheService implements IRedisCacheService {
    */
   static createFromEnvironment(logger: ILogger): RedisCacheService {
     const configResult = ConnectionConfigFactory.createRedisConfig();
-    
+
     if (!configResult.isValid) {
       const errorMessages = configResult.errors?.map(e => e.message).join(', ') || 'Unknown validation error';
       throw new Error(`Redis configuration validation failed: ${errorMessages}`);
     }
 
     const standardizedConfig = configResult.data!;
-    
+
     // Convert standardized config to ICacheConfig
     const cacheConfig: ICacheConfig = {
       host: standardizedConfig.host,
@@ -145,19 +145,19 @@ export class RedisCacheService implements IRedisCacheService {
     if (!this.config.host) {
       throw new ConfigurationError('host', this.config.host, 'Redis host is required');
     }
-    
+
     if (!this.config.port || this.config.port < 1 || this.config.port > 65535) {
       throw new ConfigurationError('port', this.config.port, 'Redis port must be between 1 and 65535');
     }
-    
+
     if (this.config.db !== undefined && (this.config.db < 0 || this.config.db > 15)) {
       throw new ConfigurationError('db', this.config.db, 'Redis database must be between 0 and 15');
     }
-    
+
     if (this.config.timeout && (this.config.timeout < 1000 || this.config.timeout > 60000)) {
       throw new ConfigurationError('timeout', this.config.timeout, 'Redis timeout must be between 1000ms and 60000ms');
     }
-    
+
     if (this.config.pool) {
       if (this.config.pool.min < 0 || this.config.pool.min > 20) {
         throw new ConfigurationError('pool.min', this.config.pool.min, 'Redis pool minimum must be between 0 and 20');
@@ -191,16 +191,16 @@ export class RedisCacheService implements IRedisCacheService {
   private sanitizeErrorMessage(message: string): string {
     // Remove potential passwords from error messages
     let sanitized = message;
-    
+
     // Remove password from connection strings
     sanitized = sanitized.replace(/(:\/\/[^:]*:)[^@]*(@)/g, '$1***$2');
-    
+
     // Remove auth tokens
     sanitized = sanitized.replace(/auth\s+[^\s]+/gi, 'auth ***');
-    
+
     // Remove password parameters
     sanitized = sanitized.replace(/password[=:]\s*[^\s&]+/gi, 'password=***');
-    
+
     return sanitized;
   }
 
@@ -227,7 +227,7 @@ export class RedisCacheService implements IRedisCacheService {
 
   private setupEventHandlers(): void {
     this.redis.on('connect', () => {
-      this.logger.info({ 
+      this.logger.info({
         message: 'Redis cache connected successfully',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -239,7 +239,7 @@ export class RedisCacheService implements IRedisCacheService {
     });
 
     this.redis.on('ready', () => {
-      this.logger.info({ 
+      this.logger.info({
         message: 'Redis cache ready for operations',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -252,12 +252,12 @@ export class RedisCacheService implements IRedisCacheService {
 
     this.redis.on('error', (error) => {
       this.metrics.errors++;
-      
+
       // Create standardized connection error
       const connectionError = new ConnectionError('redis', error);
-      
+
       // Log error without exposing sensitive information
-      this.logger.error({ 
+      this.logger.error({
         message: 'Redis cache connection error',
         fullMessage: JSON.stringify({
           errorType: connectionError.name,
@@ -273,7 +273,7 @@ export class RedisCacheService implements IRedisCacheService {
     });
 
     this.redis.on('close', () => {
-      this.logger.warning({ 
+      this.logger.warning({
         message: 'Redis cache connection closed',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -285,7 +285,7 @@ export class RedisCacheService implements IRedisCacheService {
     });
 
     this.redis.on('reconnecting', (delay: number) => {
-      this.logger.info({ 
+      this.logger.info({
         message: 'Redis cache reconnecting...',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -298,7 +298,7 @@ export class RedisCacheService implements IRedisCacheService {
     });
 
     this.redis.on('end', () => {
-      this.logger.warning({ 
+      this.logger.warning({
         message: 'Redis cache connection ended',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -319,19 +319,19 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const key = this.getSessionKey(sessionId);
       const serializedSession = JSON.stringify(session);
-      
+
       const result = await this.redis.setex(key, ttlSeconds, serializedSession);
-      
+
       if (result === 'OK') {
         // Maintain user-to-sessions mapping
         const userSessionsKey = this.getUserSessionsKey(session.userId);
         await this.redis.sadd(userSessionsKey, sessionId);
         await this.redis.expire(userSessionsKey, ttlSeconds);
-        
+
         this.metrics.sets++;
         return Results.ok(true);
       }
-      
+
       return Results.ok(false);
     } catch (error) {
       this.metrics.errors++;
@@ -347,13 +347,13 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const key = this.getSessionKey(sessionId);
       const serializedSession = await this.redis.get(key);
-      
+
       if (serializedSession) {
         this.metrics.hits++;
         const session = JSON.parse(serializedSession) as UserSession;
         return Results.ok(session);
       }
-      
+
       this.metrics.misses++;
       return Results.ok(null);
     } catch (error) {
@@ -370,15 +370,15 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       // Get session to find user ID for cleanup
       const sessionResult = await this.getSession(sessionId);
-      
+
       const key = this.getSessionKey(sessionId);
       const result = await this.redis.del(key);
-      
+
       if (sessionResult.isOk && sessionResult.returnValue) {
         const userSessionsKey = this.getUserSessionsKey(sessionResult.returnValue.userId);
         await this.redis.srem(userSessionsKey, sessionId);
       }
-      
+
       this.metrics.deletes++;
       return Results.ok(result > 0);
     } catch (error) {
@@ -395,13 +395,13 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const userSessionsKey = this.getUserSessionsKey(userId);
       const sessionIds = await this.redis.smembers(userSessionsKey);
-      
+
       if (sessionIds.length > 0) {
         const sessionKeys = sessionIds.map(id => this.getSessionKey(id));
         await this.redis.del(...sessionKeys);
         await this.redis.del(userSessionsKey);
       }
-      
+
       this.metrics.deletes += sessionIds.length + 1;
       return Results.ok(true);
     } catch (error) {
@@ -422,7 +422,7 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const key = this.getPermissionKey(userId);
       const serializedPermissions = JSON.stringify(permissions);
-      
+
       const result = await this.redis.setex(key, ttlSeconds, serializedPermissions);
       this.metrics.sets++;
       return Results.ok(result === 'OK');
@@ -440,13 +440,13 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const key = this.getPermissionKey(userId);
       const serializedPermissions = await this.redis.get(key);
-      
+
       if (serializedPermissions) {
         this.metrics.hits++;
         const permissions = JSON.parse(serializedPermissions) as Permission[];
         return Results.ok(permissions);
       }
-      
+
       this.metrics.misses++;
       return Results.ok(null);
     } catch (error) {
@@ -499,12 +499,12 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const key = this.getTenantContextKey(userId);
       const tenantId = await this.redis.get(key);
-      
+
       if (tenantId) {
         this.metrics.hits++;
         return Results.ok(tenantId);
       }
-      
+
       this.metrics.misses++;
       return Results.ok(null);
     } catch (error) {
@@ -541,14 +541,14 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const tenantKey = this.getTenantDataKey(tenantId, key);
       const serializedData = JSON.stringify(data);
-      
+
       const result = await this.redis.setex(tenantKey, ttlSeconds, serializedData);
-      
+
       // Track tenant keys for invalidation
       const tenantKeysSet = this.getTenantKeysSet(tenantId);
       await this.redis.sadd(tenantKeysSet, key);
       await this.redis.expire(tenantKeysSet, ttlSeconds + 300); // Keep set longer than data
-      
+
       this.metrics.sets++;
       return Results.ok(result === 'OK');
     } catch (error) {
@@ -565,13 +565,13 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const tenantKey = this.getTenantDataKey(tenantId, key);
       const serializedData = await this.redis.get(tenantKey);
-      
+
       if (serializedData) {
         this.metrics.hits++;
         const data = JSON.parse(serializedData) as T;
         return Results.ok(data);
       }
-      
+
       this.metrics.misses++;
       return Results.ok(null);
     } catch (error) {
@@ -588,11 +588,11 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const tenantKey = this.getTenantDataKey(tenantId, key);
       const result = await this.redis.del(tenantKey);
-      
+
       // Remove from tenant keys set
       const tenantKeysSet = this.getTenantKeysSet(tenantId);
       await this.redis.srem(tenantKeysSet, key);
-      
+
       this.metrics.deletes++;
       return Results.ok(result > 0);
     } catch (error) {
@@ -609,16 +609,16 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const tenantKeysSet = this.getTenantKeysSet(tenantId);
       const keys = await this.redis.smembers(tenantKeysSet);
-      
+
       if (keys.length > 0) {
         const tenantKeys = keys.map(key => this.getTenantDataKey(tenantId, key));
         const deletedCount = await this.redis.del(...tenantKeys);
         await this.redis.del(tenantKeysSet);
-        
+
         this.metrics.deletes += deletedCount + 1;
         return Results.ok(deletedCount);
       }
-      
+
       return Results.ok(0);
     } catch (error) {
       this.metrics.errors++;
@@ -676,7 +676,7 @@ export class RedisCacheService implements IRedisCacheService {
     try {
       const result = await this.redis.ping();
       const isHealthy = result === 'PONG';
-      
+
       if (isHealthy) {
         this.logger.info({
           message: 'Redis health check passed',
@@ -700,13 +700,13 @@ export class RedisCacheService implements IRedisCacheService {
           })
         });
       }
-      
+
       return Results.ok(isHealthy);
     } catch (error) {
       this.metrics.errors++;
       const connectionError = new ConnectionError('redis', error as Error);
-      
-      this.logger.error({ 
+
+      this.logger.error({
         message: 'Redis health check failed',
         fullMessage: JSON.stringify({
           host: this.config.host,
@@ -717,7 +717,7 @@ export class RedisCacheService implements IRedisCacheService {
           timestamp: new Date().toISOString()
         })
       });
-      
+
       return Results.fail<boolean>(null, 'Redis health check failed');
     } finally {
       this.endPerformanceTimer(timerId);
@@ -773,7 +773,7 @@ export class RedisCacheService implements IRedisCacheService {
     } catch (error) {
       this.metrics.errors++;
       const connectionError = new ConnectionError('redis', error as Error);
-      
+
       this.logger.error({
         message: 'Redis connection validation failed',
         fullMessage: JSON.stringify({
@@ -785,7 +785,7 @@ export class RedisCacheService implements IRedisCacheService {
           timestamp: new Date().toISOString()
         })
       });
-      
+
       return Results.fail<{ isConnected: boolean; info: any }>({ isConnected: false, info: null }, `Redis connection validation failed: ${this.sanitizeErrorMessage((error as Error).message)}`);
     } finally {
       this.endPerformanceTimer(timerId);
@@ -814,7 +814,7 @@ export class RedisCacheService implements IRedisCacheService {
 
         // Gracefully disconnect
         await this.redis.quit();
-        
+
         this.logger.info({
           message: 'Redis connection cleanup completed successfully',
           fullMessage: JSON.stringify({
@@ -825,7 +825,7 @@ export class RedisCacheService implements IRedisCacheService {
           })
         });
       }
-      
+
       return Results.ok(undefined);
     } catch (error) {
       this.logger.error({
@@ -838,7 +838,7 @@ export class RedisCacheService implements IRedisCacheService {
           timestamp: new Date().toISOString()
         })
       });
-      
+
       // Force disconnect if graceful quit fails
       try {
         this.redis.disconnect();
@@ -848,7 +848,7 @@ export class RedisCacheService implements IRedisCacheService {
           fullMessage: this.sanitizeErrorMessage((forceError as Error).message)
         });
       }
-      
+
       return Results.fail(null, `Redis cleanup failed: ${this.sanitizeErrorMessage((error as Error).message)}`);
     }
   }
@@ -868,11 +868,11 @@ export class RedisCacheService implements IRedisCacheService {
     if (startTime) {
       const duration = Date.now() - startTime;
       this.performanceTimers.delete(timerId);
-      
+
       // Update average response time
-      this.metrics.avgResponseTime = 
+      this.metrics.avgResponseTime =
         (this.metrics.avgResponseTime + duration) / 2;
-      
+
       return duration;
     }
     return 0;
@@ -886,7 +886,7 @@ export class RedisCacheService implements IRedisCacheService {
     const timerId = this.startPerformanceTimer('get');
     try {
       const value = await this.redis.get(key);
-      
+
       if (value) {
         this.metrics.hits++;
         try {
@@ -912,13 +912,13 @@ export class RedisCacheService implements IRedisCacheService {
     const timerId = this.startPerformanceTimer('set');
     try {
       const serializedValue = typeof value === 'string' ? value : JSON.stringify(value);
-      
+
       if (ttlSeconds) {
         await this.redis.setex(key, ttlSeconds, serializedValue);
       } else {
         await this.redis.set(key, serializedValue);
       }
-      
+
       this.metrics.sets++;
       return true;
     } catch (error) {
@@ -953,44 +953,44 @@ export class RedisCacheService implements IRedisCacheService {
   async deleteByPattern(pattern: string): Promise<number> {
     const timerId = this.startPerformanceTimer('deleteByPattern');
     let deletedCount = 0;
-    
+
     try {
       // Use SCAN to find keys matching the pattern (more efficient than KEYS for large datasets)
       let cursor = '0';
       const fullPattern = `${this.config.keyPrefix || ''}${pattern}`;
-      
+
       do {
         const result = await this.redis.scan(cursor, 'MATCH', fullPattern, 'COUNT', 100);
         cursor = result[0];
         const keys = result[1];
-        
+
         if (keys.length > 0) {
           // Delete keys without the prefix since redis.del uses the prefix automatically
-          const keysWithoutPrefix = keys.map(k => 
-            k.startsWith(this.config.keyPrefix || '') 
-              ? k.substring((this.config.keyPrefix || '').length) 
+          const keysWithoutPrefix = keys.map(k =>
+            k.startsWith(this.config.keyPrefix || '')
+              ? k.substring((this.config.keyPrefix || '').length)
               : k
           );
-          
+
           for (const key of keysWithoutPrefix) {
             await this.redis.del(key);
             deletedCount++;
           }
         }
       } while (cursor !== '0');
-      
+
       this.metrics.deletes += deletedCount;
-      this.logger.info({ 
+      this.logger.info({
         message: `Deleted ${deletedCount} keys matching pattern: ${pattern}`,
         fullMessage: JSON.stringify({ pattern, deletedCount })
       });
-      
+
       return deletedCount;
     } catch (error) {
       this.metrics.errors++;
-      this.logger.error({ 
-        message: 'Failed to delete keys by pattern', 
-        fullMessage: (error as Error).message 
+      this.logger.error({
+        message: 'Failed to delete keys by pattern',
+        fullMessage: (error as Error).message
       });
       return deletedCount;
     } finally {
@@ -1045,7 +1045,7 @@ export class RedisCacheService implements IRedisCacheService {
   private parseRedisInfo(info: string): Record<string, any> {
     const result: Record<string, any> = {};
     const lines = info.split('\r\n');
-    
+
     for (const line of lines) {
       if (line && !line.startsWith('#') && line.includes(':')) {
         const [key, value] = line.split(':');
@@ -1054,7 +1054,7 @@ export class RedisCacheService implements IRedisCacheService {
         result[key] = isNaN(numValue) ? value : numValue;
       }
     }
-    
+
     return result;
   }
 }

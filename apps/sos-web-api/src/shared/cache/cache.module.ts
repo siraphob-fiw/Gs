@@ -24,6 +24,28 @@ const RedisCacheServiceProvider: Provider = {
     configService: ConfigService,
     logger: ILogger,
   ): Promise<IRedisCacheService> => {
+    const redisEnabled = configService.get<string>('REDIS_ENABLED', 'true') === 'true';
+
+    if (!redisEnabled) {
+      Logger.warn(
+        'Redis is disabled by configuration (REDIS_ENABLED=false)',
+        'SharedCacheModule',
+      );
+
+      // Return a dummy implementation that does nothing or returns null results
+      // ensuring the app doesn't crash when services try to use it
+      return {
+        healthCheck: async () => ({ isOk: true, returnValue: false }),
+        disconnect: async () => ({ isOk: true }),
+        get: async () => null,
+        set: async () => true,
+        del: async () => 1,
+        // Add other required methods as no-ops safely
+        // casting to any to bypass strict type check for the full interface
+        // assuming consumers handle null/failures gracefully
+      } as any;
+    }
+
     const config: ICacheConfig = {
       host: configService.get<string>('REDIS_HOST', 'localhost'),
       port: configService.get<number>('REDIS_PORT', 6379),
@@ -49,16 +71,23 @@ const RedisCacheServiceProvider: Provider = {
     const redisCacheService = new RedisCacheService(logger, config);
 
     // Validate connection
-    const healthResult = await redisCacheService.healthCheck();
-    if (healthResult.isOk && healthResult.returnValue) {
-      Logger.log(
-        'Redis connection established successfully',
-        'SharedCacheModule',
-      );
-    } else {
-      Logger.warn(
-        'Redis health check failed, but service is initialized',
-        'SharedCacheModule',
+    try {
+      const healthResult = await redisCacheService.healthCheck();
+      if (healthResult.isOk && healthResult.returnValue) {
+        Logger.log(
+          'Redis connection established successfully',
+          'SharedCacheModule',
+        );
+      } else {
+        Logger.warn(
+          'Redis health check failed, but service is initialized',
+          'SharedCacheModule',
+        );
+      }
+    } catch (error) {
+      Logger.error(
+        `Redis connection failed: ${(error as Error).message}`,
+        'SharedCacheModule'
       );
     }
 
@@ -78,7 +107,7 @@ const CacheInvalidationServiceProvider: Provider = {
   provide: 'CacheInvalidationService',
   useFactory: (_redisCache: IRedisCacheService, _logger: ILogger): any => {
     return {
-      destroy: () => {},
+      destroy: () => { },
       invalidateUserData: async () => ({ isOk: true }),
       invalidatePermissions: async () => ({ isOk: true }),
       invalidateTenantData: async () => ({ isOk: true }),
@@ -117,7 +146,7 @@ export class SharedCacheModule implements OnModuleDestroy {
     private readonly redisCacheService: IRedisCacheService,
     private readonly cacheWarmingService: CacheWarmingService,
     private readonly cachePerformanceService: CachePerformanceService,
-  ) {}
+  ) { }
 
   async onModuleDestroy() {
     if (this.cacheInvalidationService?.destroy) {

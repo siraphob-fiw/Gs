@@ -42,6 +42,16 @@ import { SharedTestController } from './controllers/shared-test.controller';
     CacheModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
+        const redisEnabled = configService.get<string>('REDIS_ENABLED', 'true') === 'true';
+
+        if (!redisEnabled) {
+          Logger.log('[CacheModule] ⚠️ Redis is disabled. Using in-memory cache.', 'SharedModule');
+          return {
+            store: 'memory', // Default in-memory store
+            ttl: 60000,
+          };
+        }
+
         Logger.log('[CacheModule] 🔧 Initializing CACHE_MANAGER with Redis...');
 
         const ttlMs = configService.get<number>('REDIS_TTL', 600) * 1000; // Convert to milliseconds
@@ -102,4 +112,4 @@ import { SharedTestController } from './controllers/shared-test.controller';
     SharedServicesService,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

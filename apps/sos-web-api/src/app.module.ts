@@ -27,6 +27,7 @@ import { ProgressionModule } from './progression/progression.module';
 import { CmsModule } from './cms/cms.module';
 import { ExerciseCategoryModule } from './exercise-category/exercise-category.module';
 import { GlobalSettingModule } from './global-setting/global-setting.module';
+import { EquipmentModule } from './equipment/equipment.module';
 
 @Module({
   imports: [
@@ -70,8 +71,9 @@ import { GlobalSettingModule } from './global-setting/global-setting.module';
     CmsModule,
     ExerciseCategoryModule,
     GlobalSettingModule,
+    EquipmentModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

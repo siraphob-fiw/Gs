@@ -56,6 +56,7 @@ export interface TenantEntity {
   subscription_info_details: SubscriptionInfo | null;
   billing_info: BillingInfo;
   contact: { [key: string]: string };
+  availableEquipment?: string[];
   created_at: Date;
   updated_at: Date;
   suspended_at?: Date | null;
@@ -94,7 +95,7 @@ export class EntityMappingService {
   constructor(
     private readonly typeTransformationService: TypeTransformationService,
     private readonly databaseService: DatabaseService,
-  ) {}
+  ) { }
 
   /**
    * Map database user entity to domain user object
@@ -257,6 +258,7 @@ export class EntityMappingService {
         subscription_info_details: entity.subscription_info_details,
         billing_info: entity.billing_info,
         contact: entity.contact,
+        availableEquipment: entity.availableEquipment,
         created_at: entity.created_at,
         updated_at: entity.updated_at,
         suspended_at: entity.suspended_at || null,
@@ -283,6 +285,8 @@ export class EntityMappingService {
         settings: tenant.settings,
         subscription_info: tenant.subscription_info,
         billing_info: tenant.billing_info,
+        contact: tenant.contact,
+        availableEquipment: tenant.availableEquipment,
         created_at: tenant.created_at,
         updated_at: tenant.updated_at,
         suspended_at: tenant.suspended_at,
@@ -493,29 +497,29 @@ export class EntityMappingService {
 
       mapDtoToEntity: config.dtoToEntity
         ? (dto: TDto): Results<Partial<TEntity>> => {
-            try {
-              const entity = {} as Partial<TEntity>;
+          try {
+            const entity = {} as Partial<TEntity>;
 
-              for (const [entityKey, dtoKeyOrTransformer] of Object.entries(
-                config.dtoToEntity!,
-              )) {
-                if (typeof dtoKeyOrTransformer === 'function') {
-                  entity[entityKey as keyof TEntity] = dtoKeyOrTransformer(dto);
-                } else {
-                  entity[entityKey as keyof TEntity] = dto[
-                    dtoKeyOrTransformer as keyof TDto
-                  ] as any;
-                }
+            for (const [entityKey, dtoKeyOrTransformer] of Object.entries(
+              config.dtoToEntity!,
+            )) {
+              if (typeof dtoKeyOrTransformer === 'function') {
+                entity[entityKey as keyof TEntity] = dtoKeyOrTransformer(dto);
+              } else {
+                entity[entityKey as keyof TEntity] = dto[
+                  dtoKeyOrTransformer as keyof TDto
+                ] as any;
               }
-
-              return Results.ok(entity);
-            } catch (error) {
-              return Results.fail<Partial<TEntity>>(
-                null,
-                `DTO to entity mapping failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-              );
             }
+
+            return Results.ok(entity);
+          } catch (error) {
+            return Results.fail<Partial<TEntity>>(
+              null,
+              `DTO to entity mapping failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            );
           }
+        }
         : undefined,
     };
   }

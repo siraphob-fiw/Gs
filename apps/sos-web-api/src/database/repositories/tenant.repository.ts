@@ -9,6 +9,7 @@ export interface Tenant extends BaseEntity {
   settings?: TenantSettings;
   subscription_info?: SubscriptionInfo;
   billing_info?: BillingInfo;
+  available_equipment?: string[];
   created_at: Date;
   updated_at: Date;
   suspended_at?: Date;

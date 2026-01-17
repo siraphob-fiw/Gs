@@ -45,6 +45,7 @@ export interface TenantSettingsFormData {
   subscription_info_details: SubscriptionInfo | null;
   billing_info: BillingInfo;
   contact?: { [key: string]: string };
+  availableEquipment?: string[];
   created_at: Date;
   updated_at: Date;
   suspended_at: Date | null;
@@ -84,6 +85,7 @@ const initialFormData: TenantSettingsFormData = {
     billingCycle: 'MONTHLY',
   },
   contact: {},
+  availableEquipment: [],
   created_at: new Date(),
   updated_at: new Date(),
   suspended_at: null,
@@ -98,7 +100,7 @@ export function TenantSettingsForm({ onTenantCreated }: { onTenantCreated?: () =
   const isAdminUser = isAdmin();
   // Fetch all tenants for SUPER_ADMIN - using enabled option instead of conditional hook call
   const { data: tenantsData, isLoading: tenantsLoading, refetch: refetchTenants } = useTenants(undefined, { enabled: isAdminUser });
-  const { data: plansData } = useSubscriptionPlans({ isactive: true });
+  // const { data: plansData } = useSubscriptionPlans({ isactive: true });
 
   // Use selected tenant ID for SUPER_ADMIN, or user's tenant ID for others
   const activeTenantId = isSuperAdmin ? selectedTenantId : (user?.tenantId ?? '');
@@ -754,7 +756,7 @@ export function TenantSettingsForm({ onTenantCreated }: { onTenantCreated?: () =
               </CardBody>
             </Card>
 
-            {formData.subscription_info !== null ? (
+            {/* {formData.subscription_info !== null ? (
               <Card className="bg-backgroundSecondary border border-border">
                 <CardHeader>
                   <div className="text-lg font-medium text-text">
@@ -871,7 +873,6 @@ export function TenantSettingsForm({ onTenantCreated }: { onTenantCreated?: () =
                   </div>
                 </CardHeader>
                 <CardBody>
-                  {/* Add subscription form */}
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-between'>
                     <div className="text-textMuted text-sm">No subscription information</div>
                     <div className="flex gap-4 items-center">
@@ -922,7 +923,7 @@ export function TenantSettingsForm({ onTenantCreated }: { onTenantCreated?: () =
                   </div>
                 </CardBody>
               </Card>
-            )}
+            )} */}
           </div>
         )}
       </CardBody>

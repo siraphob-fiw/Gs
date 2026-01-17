@@ -21,7 +21,7 @@ import { UserRole } from '@strengthos/shared-types';
 import { adaptUserForUI } from '@/utils/user-adapter';
 import { ConfirmationModal } from '../forms/ConfirmationModal';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FaCalendar, FaCogs, FaRunning, FaTrophy, FaWrench } from 'react-icons/fa';
+import { FaCalendar, FaCogs, FaRunning, FaTrophy, FaTools, FaWrench } from 'react-icons/fa';
 import { EnhancedColorSwitcher } from './EnhancedColorSwitcher';
 import { IoIosLogOut } from 'react-icons/io';
 import Image from 'next/image';
@@ -226,6 +226,17 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           />
         ),
         active: pathname.startsWith('/manage/modifier'),
+        roles: [UserRole.COACH, UserRole.COACH_ADMIN, UserRole.SUPER_ADMIN, UserRole.TENANT_ADMIN],
+      },
+      {
+        label: isAdmin() ? t('common.manageEquipment') : t('common.equipment'),
+        href: '/manage/equipment',
+        icon: (
+          <FaTools
+            className={pathname.startsWith('/manage/equipment') ? 'text-white' : 'text-primary'}
+          />
+        ),
+        active: pathname.startsWith('/manage/equipment'),
         roles: [UserRole.COACH, UserRole.COACH_ADMIN, UserRole.SUPER_ADMIN, UserRole.TENANT_ADMIN],
       },
       {

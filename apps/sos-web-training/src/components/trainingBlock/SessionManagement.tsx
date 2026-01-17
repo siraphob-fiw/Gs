@@ -216,18 +216,20 @@ const TableListSessions = ({
               {session.sessionStatus ? session.sessionStatus.replaceAll('_', ' ') : 'Unknown'}
             </TableCell>
             <TableCell className="text-center flex items-center gap-2 justify-center">
-              {session.sessionStatus === SessionStatus.PLANNED || session.sessionStatus === SessionStatus.IN_PROGRESS &&
-                <Button
-                  variant="solid"
-                  size="sm"
-                  color="warning"
-                  onPress={() => handleEditSession(session.id)}
-                  aria-label="Edit Session"
-                  isIconOnly
-                >
-                  <FaEdit className="text-white" />
-                </Button>
-              }
+              {(session.sessionStatus === SessionStatus.PLANNED ||
+                session.sessionStatus === SessionStatus.IN_PROGRESS ||
+                session.sessionStatus === SessionStatus.OVERDUE) && (
+                  <Button
+                    variant="solid"
+                    size="sm"
+                    color="warning"
+                    onPress={() => handleEditSession(session.id)}
+                    aria-label="Edit Session"
+                    isIconOnly
+                  >
+                    <FaEdit className="text-white" />
+                  </Button>
+                )}
               <Button
                 variant="solid"
                 size="sm"
@@ -249,16 +251,16 @@ const TableListSessions = ({
                 <FaEye className="text-white" />
               </Button>
               {/* {!isAthlete && ( */}
-                <Button
-                  variant="solid"
-                  size="sm"
-                  color="danger"
-                  onPress={() => handleDeleteSession(session.id)}
-                  aria-label="Delete Session"
-                  isIconOnly
-                >
-                  <FaTrash className="text-white" />
-                </Button>
+              <Button
+                variant="solid"
+                size="sm"
+                color="danger"
+                onPress={() => handleDeleteSession(session.id)}
+                aria-label="Delete Session"
+                isIconOnly
+              >
+                <FaTrash className="text-white" />
+              </Button>
               {/* )} */}
             </TableCell>
           </TableRow>
@@ -274,7 +276,7 @@ interface SessionManagementProps {
   selectedAthlete?: string;
 }
 
-export const SessionManagement = ({ 
+export const SessionManagement = ({
   isAthlete = false,
   onSessionDeleted,
   selectedAthlete,

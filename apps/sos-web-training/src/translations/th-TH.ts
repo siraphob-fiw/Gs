@@ -447,7 +447,7 @@ const _thTHTranslations: Record<string, Translation> = {
   loggingOut: t('กำลังออกจากระบบ...'),
   loading: t('กำลังโหลด...'),
   logo: t('โลโก้'),
-  strengthOSTraining: t('StrengthOS Training'),
+  strengthOSTraining: t('Training Program'),
   confirmation: t('ยืนยัน'),
   areYouSureYouWantToDoThis: t('คุณแน่ใจหรือไม่ว่าต้องการทำสิ่งนี้?'),
   confirm: t('ยืนยัน'),
@@ -489,8 +489,6 @@ const _thTHTranslations: Record<string, Translation> = {
   // Gender values
   MALE: t('ชาย'),
   FEMALE: t('หญิง'),
-  'NON BINARY': t('ไม่ระบุเพศ'),
-  'PREFER NOT TO SAY': t('ไม่ต้องการระบุ'),
 
   // TrainingPreferences keys
   trainingPreferencesSavedSuccessfully: t('บันทึกการตั้งค่าการฝึกสำเร็จ'),

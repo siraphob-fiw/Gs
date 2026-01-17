@@ -7,7 +7,7 @@ import { FaBuilding } from 'react-icons/fa';
 import { GoGlobe } from 'react-icons/go';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { useTranslation } from '@/hooks/api/useTranslation';
-import { useSubscriptionPlans } from '@/hooks/api/use-subscription';
+// import { useSubscriptionPlans } from '@/hooks/api/use-subscription';
 import { SelectWithClassName } from '../forms/selectWithClassName';
 
 interface CreateTenantFormProps {
@@ -27,7 +27,7 @@ export const initialValue = {
 export function CreateTenantForm({ onTenantCreated }: CreateTenantFormProps) {
   const { t } = useTranslation();
   const createTenantMutation = useCreateTenant();
-  const { data: subscriptionPlans } = useSubscriptionPlans({ isactive: true });
+  // const { data: subscriptionPlans } = useSubscriptionPlans({ isactive: true });
   const [isCreatingTenant, setIsCreatingTenant] = useState(false);
   const [newTenantForm, setNewTenantForm] = useState<{
     name: string;
@@ -159,7 +159,7 @@ export function CreateTenantForm({ onTenantCreated }: CreateTenantFormProps) {
             plan: Array.from(keys) as string[],
           }));
         }}
-        isDisabled={subscriptionPlans?.length === 0}
+        // isDisabled={subscriptionPlans?.length === 0}
         selectorIconColor="text-text"
         classNames={{
           trigger: `bg-backgroundSecondary data-[open=true]:border-border`,
@@ -176,14 +176,14 @@ export function CreateTenantForm({ onTenantCreated }: CreateTenantFormProps) {
             >
               Trial Plan
             </SelectItem>
-            {subscriptionPlans?.map((plan) => (
+            {/* {subscriptionPlans?.map((plan) => (
               <SelectItem
                 key={plan.id}
                 textValue={plan.name}
               >
                 {plan.name}
               </SelectItem>
-            ))}
+            ))} */}
           </>
         }
       />

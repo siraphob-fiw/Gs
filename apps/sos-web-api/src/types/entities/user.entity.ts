@@ -88,7 +88,7 @@ export class UserEntity extends TenantAwareEntity {
   @ApiPropertyOptional({
     description: 'Gender',
     enum: Gender,
-    example: Gender.PREFER_NOT_TO_SAY,
+    example: Gender.MALE,
   })
   @IsOptional()
   @IsEnum(Gender)

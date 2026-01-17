@@ -32,7 +32,7 @@ const localPoppin = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'StrengthOS Training',
+  title: 'Training Program',
   description: 'Training platform for strength athletes and coaches',
   keywords: ['strength training', 'fitness', 'workout', 'coaching'],
   authors: [{ name: 'StrengthOS' }],

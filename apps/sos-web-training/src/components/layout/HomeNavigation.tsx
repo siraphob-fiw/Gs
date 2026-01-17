@@ -109,7 +109,7 @@ export const HomeNavigation = ({ redirectUrl }: HomeNavigationProps) => {
             height={48}
             priority
           />
-          <span className="ml-2 font-semibold text-lg">StrengthOS Training</span>
+          <span className="ml-2 font-semibold text-lg">Training Program</span>
         </div>
         <HamburgerMenu />
       </div>
@@ -134,7 +134,7 @@ export const HomeNavigation = ({ redirectUrl }: HomeNavigationProps) => {
           height={48}
           priority
         />
-        <span className="ml-2 font-semibold text-lg">StrengthOS Training</span>
+        <span className="ml-2 font-semibold text-lg">Training Program</span>
       </NavbarBrand>
       {!isTablet ? (
         <NavbarContent className="gap-x-0" justify="center">

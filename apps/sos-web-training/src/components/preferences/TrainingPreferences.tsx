@@ -26,6 +26,8 @@ import { useTranslation } from '@/hooks/api/useTranslation';
 import { useLocale } from '@/hooks/api/useLocale';
 import { useAppDispatch } from '@/store';
 import { setLanguage } from '@/store/slices/preferencesSlice';
+import { useEquipments } from '@/hooks/api/use-equipment';
+
 interface TrainingPreferencesProps {
   userId: string;
 }
@@ -130,6 +132,7 @@ export const defaultPreferences: UserPreferences = {
       },
     },
     exerciseBlacklist: [],
+    equipmentProfile: [],
   },
 };
 
@@ -139,7 +142,8 @@ export const TrainingPreferences = ({ userId }: TrainingPreferencesProps) => {
     isLoading: loadingPreferences,
     refetch,
   } = useTrainingPreferences(userId);
-  const { data: exercisesData } = useExercises({ limit: 1000, search: '' });
+  // const { data: exercisesData } = useExercises({ limit: 1000, search: '' });
+  const { data: equipmentsData } = useEquipments({ limit: 1000, search: '' });
   const updatePreferencesMutation = useUpdateTrainingPreferences();
   const { t } = useTranslation();
   const { changeLocale, languageCode } = useLocale();
@@ -302,17 +306,17 @@ export const TrainingPreferences = ({ userId }: TrainingPreferencesProps) => {
                               value={
                                 weeklySchedule?.timeSlots?.startTime
                                   ? (() => {
-                                      const [hour, minute] = (
-                                        weeklySchedule.timeSlots.startTime ?? ''
-                                      ).split(':');
-                                      if (hour !== undefined && minute !== undefined) {
-                                        return {
-                                          hour: Number(hour),
-                                          minute: Number(minute),
-                                        } as TimeValue;
-                                      }
-                                      return null;
-                                    })()
+                                    const [hour, minute] = (
+                                      weeklySchedule.timeSlots.startTime ?? ''
+                                    ).split(':');
+                                    if (hour !== undefined && minute !== undefined) {
+                                      return {
+                                        hour: Number(hour),
+                                        minute: Number(minute),
+                                      } as TimeValue;
+                                    }
+                                    return null;
+                                  })()
                                   : null
                               }
                               onChange={(val) => {
@@ -358,17 +362,17 @@ export const TrainingPreferences = ({ userId }: TrainingPreferencesProps) => {
                               value={
                                 weeklySchedule?.timeSlots?.endTime
                                   ? (() => {
-                                      const [hour, minute] = (
-                                        weeklySchedule.timeSlots.endTime ?? ''
-                                      ).split(':');
-                                      if (hour !== undefined && minute !== undefined) {
-                                        return {
-                                          hour: Number(hour),
-                                          minute: Number(minute),
-                                        } as TimeValue;
-                                      }
-                                      return null;
-                                    })()
+                                    const [hour, minute] = (
+                                      weeklySchedule.timeSlots.endTime ?? ''
+                                    ).split(':');
+                                    if (hour !== undefined && minute !== undefined) {
+                                      return {
+                                        hour: Number(hour),
+                                        minute: Number(minute),
+                                      } as TimeValue;
+                                    }
+                                    return null;
+                                  })()
                                   : null
                               }
                               onChange={(val) => {
@@ -721,7 +725,7 @@ export const TrainingPreferences = ({ userId }: TrainingPreferencesProps) => {
               ))}
             </div>
 
-            <div className="text-text">
+            {/* <div className="text-text">
               <h3 className="font-medium mb-4">{t('exerciseBlacklist')}</h3>
               <SelectWithClassName
                 id="exercise-blacklist"
@@ -764,6 +768,39 @@ export const TrainingPreferences = ({ userId }: TrainingPreferencesProps) => {
                   </SelectItem>
                 )}
               </SelectWithClassName>
+            </div> */}
+
+            <div className="text-text">
+              <h3 className="font-medium mb-4">{t('common.availableEquipment')}</h3>
+              <SelectWithClassName
+                id="equipment-profile"
+                label={t('common.availableEquipment')}
+                selectedKeys={preferences.training.equipmentProfile}
+                onSelectionChange={(value) => {
+                  setPreferences((prev: any) => ({
+                    ...prev,
+                    training: {
+                      ...prev.training,
+                      equipmentProfile: Array.from(value) as string[],
+                    },
+                  }));
+                }}
+                selectionMode="multiple"
+                selectorIconColor="text-text"
+                classNames={{
+                  trigger: 'bg-surface data-[open=true]:border-border',
+                  value: 'text-text group-data-[has-value=true]:text-text',
+                  listbox:
+                    'rounded-md border border-border data-[hover=true]:bg-backgroundSecondary',
+                }}
+                children={
+                  <>
+                    {equipmentsData?.equipments?.map((equipment) => (
+                      <SelectItem key={equipment.id}>{equipment.name}</SelectItem>
+                    ))}
+                  </>
+                }
+              />
             </div>
 
             <div className="flex justify-end space-x-2">

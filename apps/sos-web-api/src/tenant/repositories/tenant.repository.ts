@@ -20,12 +20,12 @@ export interface TenantFilters {
 
 @Injectable()
 export class TenantRepository {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(tenantData: CreateTenantRequest): Promise<tenantWithSubscription> {
     const tenantId = uuidv4();
     let subscription_info;
-    if(tenantData.plan === 'trial') {
+    if (tenantData.plan === 'trial') {
       subscription_info = await this.databaseService.knex('subscriptions').insert({
         id: uuidv4(),
         tenant_id: tenantId,
@@ -77,9 +77,11 @@ export class TenantRepository {
         billingCycle: 'MONTHLY',
         ...tenantData.billingInfo,
       },
+      availableEquipment: [],
       contact: null,
       created_at: new Date(),
       updated_at: new Date(),
+      suspended_at: null,
     };
 
     const query = this.databaseService.knex('tenants');
@@ -147,7 +149,7 @@ export class TenantRepository {
       contact: updates.contact ?? tenantData.contact ?? {},
       updated_at: new Date(),
     };
-   
+
     const rowsAffected = await this.databaseService
       .knex('tenants')
       .where('id', id)
@@ -252,6 +254,7 @@ export class TenantRepository {
       subscription_info: row.subscription_info,
       subscription_info_details: subscription_info_details ?? null,
       billing_info: row.billing_info,
+      availableEquipment: row.availableEquipment,
       contact: row.contact,
       created_at: row.created_at,
       updated_at: row.updated_at,

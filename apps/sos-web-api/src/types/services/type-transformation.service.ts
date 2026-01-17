@@ -151,7 +151,7 @@ export class TypeTransformationService {
    * Transform gender string to Gender enum
    */
   transformGender(gender: string): Gender | undefined {
-    return this.transformEnum(Gender, gender, Gender.PREFER_NOT_TO_SAY);
+    return this.transformEnum(Gender, gender);
   }
 
   /**

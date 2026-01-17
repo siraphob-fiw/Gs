@@ -141,7 +141,7 @@ export enum PlateType {
 export enum Discipline {
   BODYBUILDING = 'BODYBUILDING',
   SPORTS_SPECIFIC = 'SPORTS_SPECIFIC',
-  POWERBUILDING = 'POWERBUILDING', 
+  POWERBUILDING = 'POWERBUILDING',
 }
 
 export enum TrainingGoal {
@@ -662,8 +662,6 @@ export enum TimeFormat {
 export enum Gender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
-  NON_BINARY = 'NON_BINARY',
-  PREFER_NOT_TO_SAY = 'PREFER_NOT_TO_SAY',
 }
 
 export enum WeightUnit {

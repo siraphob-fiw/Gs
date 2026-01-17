@@ -460,7 +460,7 @@ const _enUSTranslations: Record<string, Translation> = {
   loggingOut: t('Logging out...'),
   loading: t('Loading...'),
   logo: t('Logo'),
-  strengthOSTraining: t('StrengthOS Training'),
+  strengthOSTraining: t('Training Program'),
   confirmation: t('Confirmation'),
   areYouSureYouWantToDoThis: t('Are you sure you want to do this?'),
   confirm: t('Confirm'),
@@ -502,8 +502,6 @@ const _enUSTranslations: Record<string, Translation> = {
   // Gender values
   MALE: t('Male'),
   FEMALE: t('Female'),
-  'NON BINARY': t('Non Binary'),
-  'PREFER NOT TO SAY': t('Prefer Not to Say'),
 
   // TrainingPreferences keys
   trainingPreferencesSavedSuccessfully: t('Training preferences saved successfully'),

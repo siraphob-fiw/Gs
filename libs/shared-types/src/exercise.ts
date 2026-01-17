@@ -22,7 +22,7 @@ export interface Exercise {
   createdBy: string;
   is_approved: boolean;
   tenantId: string; // Tenant isolation
-  
+  needEquipment: string[];
 }
 
 export interface ExerciseWithUser {
@@ -86,6 +86,7 @@ export interface CreateExerciseRequest {
   popularityScore?: number;
   effectivenessRating?: number;
   techniqueComplexity?: number;
+  needEquipment?: string[];
 }
 
 export interface UpdateExerciseRequest {

@@ -221,6 +221,11 @@ export class CreateExerciseDto {
   @Min(1)
   @Max(10)
   techniqueComplexity?: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  needEquipment?: string[];
 }
 
 export class UpdateExerciseDto {

@@ -44,7 +44,7 @@ export class ExerciseCacheService {
     private readonly exerciseRepository: ExerciseRepository,
     @Inject(forwardRef(() => ExerciseCacheSyncService))
     private readonly syncService: ExerciseCacheSyncService,
-  ) {}
+  ) { }
 
   // ============================================================================
   // CACHED READ OPERATIONS

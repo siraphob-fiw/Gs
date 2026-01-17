@@ -123,15 +123,14 @@ export const ExerciseList = ({
                 <TableCell>{exercise.name}</TableCell>
                 <TableCell>
                   {exercise.exerciseType
-                    .replaceAll('_', ' ')
+                    ?.replaceAll('_', ' ')
                     .toLowerCase()
                     .replace(/\b\w/g, (l) => l.toUpperCase())}
                 </TableCell>
                 <TableCell>
                   <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center mx-auto ${
-                      exercise.is_approved ? 'bg-success text-white' : 'bg-danger text-white'
-                    }`}
+                    className={`w-6 h-6 rounded-full flex items-center justify-center mx-auto ${exercise.is_approved ? 'bg-success text-white' : 'bg-danger text-white'
+                      }`}
                   >
                     {exercise.is_approved ? <FaCheck /> : <FaTimes />}
                   </div>
@@ -209,9 +208,8 @@ export const ExerciseList = ({
                     <div className="flex items-center gap-2 flex-1">
                       <h3 className="text-lg font-medium text-text">{exercise.name}</h3>
                       <div
-                        className={`inline-flex items-center justify-center rounded-full p-1 text-xs font-medium ${
-                          exercise.is_approved ? 'bg-success text-white' : 'bg-danger text-white'
-                        }`}
+                        className={`inline-flex items-center justify-center rounded-full p-1 text-xs font-medium ${exercise.is_approved ? 'bg-success text-white' : 'bg-danger text-white'
+                          }`}
                         style={{ minWidth: 24, minHeight: 24 }}
                       >
                         {exercise.is_approved ? <FaCheck /> : <FaTimes />}

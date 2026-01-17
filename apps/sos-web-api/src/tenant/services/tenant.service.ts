@@ -28,7 +28,7 @@ export class TenantService {
     private readonly userService: UserService,
     private readonly databaseService: DatabaseService,
     private readonly authService: AuthService,
-  ) {}
+  ) { }
 
   private async logToDatabase({
     tenantId,
@@ -187,12 +187,12 @@ export class TenantService {
       ...tenant,
       subscription_info_details: subscription
         ? {
-            planId: subscription.plan_id,
-            status: subscription.status,
-            start_date: subscription.start_date,
-            end_date: subscription.end_date,
-            auto_renew: subscription.auto_renew,
-          }
+          planId: subscription.plan_id,
+          status: subscription.status,
+          start_date: subscription.start_date,
+          end_date: subscription.end_date,
+          auto_renew: subscription.auto_renew,
+        }
         : null,
     };
 
@@ -256,8 +256,16 @@ export class TenantService {
       }
 
       const updatepayload = {
-        ...tenant,
-        settings,
+        id: tenant.id,
+        name: tenant.name,
+        description: tenant.description,
+        settings: {
+          ...tenant.settings,
+          ...settings,
+        },
+        subscription_info: tenant.subscription_info,
+        billing_info: tenant.billing_info,
+        contact: tenant.contact,
       };
 
       const updatedTenant = await this.tenantRepository.update(

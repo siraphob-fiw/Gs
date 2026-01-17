@@ -243,7 +243,7 @@ export function SecuritySection() {
                         <div className="text-base font-semibold text-text mb-1">
                           Change Password
                         </div>
-                        <div className="text-xs text-text/70">
+                        <div className="text-xs text-textSecondary">
                           It's a good idea to update your password regularly for increased security.
                         </div>
                       </div>
@@ -263,7 +263,7 @@ export function SecuritySection() {
                         <div className="text-base font-semibold text-text mb-1">
                           Forgot your password?
                         </div>
-                        <div className="text-xs text-text/70">
+                        <div className="text-xs text-textSecondary">
                           Reset your password using your email address.
                         </div>
                       </div>
@@ -293,7 +293,7 @@ export function SecuritySection() {
                         <div className="text-base font-semibold text-text mb-1">
                           Set Up Password
                         </div>
-                        <div className="text-xs text-text/70">
+                        <div className="text-xs text-textSecondary">
                           You don't have a password set up yet. Create one to secure your account
                           and enable password-based login.
                         </div>

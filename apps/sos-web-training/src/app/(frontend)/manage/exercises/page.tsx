@@ -70,6 +70,7 @@ export const initialExercise: CreateExerciseRequest = {
   effectivenessRating: 0,
   techniqueComplexity: 1,
   experienceLevel: 'BEGINNER',
+  needEquipment: [],
 };
 
 export default function ManageExercisesPage() {
@@ -670,8 +671,8 @@ export default function ManageExercisesPage() {
                                 Showing{' '}
                                 {exerciseCategoriesData?.total
                                   ? (exerciseCategoryFilters.page - 1) *
-                                      exerciseCategoryFilters.limit +
-                                    1
+                                  exerciseCategoryFilters.limit +
+                                  1
                                   : 0}{' '}
                                 to{' '}
                                 {Math.min(

@@ -59,11 +59,11 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
   const { data: currentWorkoutData, isLoading: currentWorkoutLoading } =
     user?.role === UserRole.ATHLETE
       ? useTrainingSessionsCalendar({
-          day: dayjs().day(),
-          month: dayjs().month(),
-          year: dayjs().year(),
-          athleteId: user?.id,
-        })
+        day: dayjs().day(),
+        month: dayjs().month(),
+        year: dayjs().year(),
+        athleteId: user?.id,
+      })
       : { data: { sessions: [] } };
   const { data: publicTenants } =
     user?.role === UserRole.ATHLETE && user?.freePlan === true ? usePublicTenants() : { data: [] };
@@ -215,9 +215,9 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
           </div>
         </div>
       </div>
-      <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4`}>
-        <Card className="bg-background">
-          <CardHeader className="text-lg font-medium text-text">StrengthOS News</CardHeader>
+      <div className={`grid grid-cols-1 xl:grid-cols-2 gap-4`}>
+        <Card className="bg-background border border-border">
+          <CardHeader className="text-lg font-medium text-text">News</CardHeader>
           <CardBody className="flex flex-col gap-2">
             {postsData?.data && postsData?.data.length === 0 ? (
               <div className="text-center text-textMuted">No news available.</div>
@@ -229,7 +229,9 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
                       <span className="text-xs text-primary">
                         {dayjs(item.created_at).format('MM/DD/YYYY')}{' '}
                       </span>
-                      {item.title}
+                      <span className="text-xs text-text">
+                        {item.title}
+                      </span>
                     </div>
                     <div className="text-sm text-textSecondary">{item.details}</div>
                   </div>
@@ -239,7 +241,7 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
           </CardBody>
         </Card>
         {/* Currenct workout */}
-        <Card className="bg-background">
+        <Card className="bg-background border border-border">
           <CardHeader className="text-lg font-medium text-text">Current Workout</CardHeader>
           <CardBody className="flex flex-col gap-2">
             {currentWorkoutLoading ? (
@@ -274,7 +276,7 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
                             (exercise: TrainingSessionExercise) =>
                               exercise.exerciseDate &&
                               dayjs(exercise.exerciseDate).format('YYYY-MM-DD') ===
-                                dayjs().format('YYYY-MM-DD'),
+                              dayjs().format('YYYY-MM-DD'),
                           )
                           .sort(
                             (a: TrainingSessionExercise, b: TrainingSessionExercise) =>
@@ -307,7 +309,7 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
                           (exercise: TrainingSessionExercise) =>
                             exercise.exerciseDate &&
                             dayjs(exercise.exerciseDate).format('YYYY-MM-DD') ===
-                              dayjs().format('YYYY-MM-DD'),
+                            dayjs().format('YYYY-MM-DD'),
                         ).length > 0 ? (
                           <div className="flex justify-end">
                             <Button
@@ -456,8 +458,8 @@ export const UserDashboard = ({ className = '' }: UserDashboardProps) => {
         ) : null}
 
         {stressSummaryData &&
-        Array.isArray(stressSummaryData.summaries) &&
-        stressSummaryData.summaries.length > 0 ? (
+          Array.isArray(stressSummaryData.summaries) &&
+          stressSummaryData.summaries.length > 0 ? (
           <Card className="bg-background text-text border border-border">
             <CardHeader className="flex gap-y-2 flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-start justify-between pb-2">
               <div className="text-lg text-text text-start font-medium mb-2">Stress Summary</div>

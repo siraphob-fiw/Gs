@@ -480,7 +480,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const loginWithOAuth: AuthContextType['loginWithOAuth'] = useCallback(async () => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-      const oauthUrl = `${apiUrl}/api/v1/auth/google`;
+      let oauthUrl = '';
+      if (process.env.NODE_ENV === 'development') {
+        oauthUrl = `http://localhost:3001/api/v1/auth/google`;
+      } else {
+        oauthUrl = `${apiUrl}/openapi/api/v1/auth/google`;
+      }
       window.location.href = oauthUrl;
       return { success: true, message: 'Redirecting to Google...' };
     } catch (error: any) {

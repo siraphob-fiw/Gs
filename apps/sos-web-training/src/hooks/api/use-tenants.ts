@@ -29,7 +29,8 @@ export interface UpdateTenantRequest {
   name?: string;
   description?: string;
   status?: TenantStatus;
-  contact?: { [key:string]: string };
+  contact?: { [key: string]: string };
+  availableEquipment?: string[]; // 
 }
 
 export const tenantsKeys = {

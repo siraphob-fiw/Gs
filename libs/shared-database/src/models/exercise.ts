@@ -1,8 +1,8 @@
 import { Knex } from 'knex';
-import { 
-  Exercise, 
-  MovementPattern, 
-  BodyPart, 
+import {
+  Exercise,
+  MovementPattern,
+  BodyPart,
   Discipline,
   ExerciseVariation,
   ExerciseProgression
@@ -29,6 +29,7 @@ export interface ExerciseRecord {
   approved_by?: string;
   approved_at?: Date;
   tenant_id: string; // Tenant isolation
+  need_equipment: string[]; // Array of equipment IDs required for this exercise
 }
 
 export interface ExerciseVariationRecord {
@@ -69,35 +70,35 @@ export interface ExerciseRestrictionRecord {
 }
 
 export class ExerciseModel {
-  constructor(private knex: Knex) {}
+  constructor(private knex: Knex) { }
 
   async findById(id: string, tenantId?: string): Promise<ExerciseRecord | undefined> {
     const query = this.knex<ExerciseRecord>('exercises').where({ id });
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.first();
   }
 
   async findByIds(ids: string[], tenantId?: string): Promise<ExerciseRecord[]> {
     const query = this.knex<ExerciseRecord>('exercises').whereIn('id', ids);
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query;
   }
 
   async findAll(tenantId?: string): Promise<ExerciseRecord[]> {
     const query = this.knex<ExerciseRecord>('exercises')
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('name');
   }
 
@@ -105,11 +106,11 @@ export class ExerciseModel {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
       .whereRaw('discipline_tags && ?', [[discipline]]);
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('popularity_score', 'desc');
   }
 
@@ -117,11 +118,11 @@ export class ExerciseModel {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
       .whereRaw('movement_patterns && ?', [[pattern]]);
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('effectiveness_rating', 'desc');
   }
 
@@ -129,33 +130,35 @@ export class ExerciseModel {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
       .whereRaw('body_part_focus && ?', [[bodyPart]]);
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('effectiveness_rating', 'desc');
   }
 
   async findByEquipment(equipmentId: string, tenantId?: string): Promise<ExerciseRecord[]> {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
-    
+      .whereRaw('need_equipment && ?', [[equipmentId]]);
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('popularity_score', 'desc');
   }
 
   async findByAvailableEquipment(equipmentIds: string[], tenantId?: string): Promise<ExerciseRecord[]> {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
-    
+      .whereRaw('need_equipment <@ ?::uuid[]', [equipmentIds]);
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('popularity_score', 'desc');
   }
 
@@ -168,11 +171,11 @@ export class ExerciseModel {
     const query = this.knex<ExerciseRecord>('exercises')
       .where({ is_approved: true })
       .whereNotIn('id', restrictedExerciseIds);
-    
+
     if (tenantId) {
       query.where({ tenant_id: tenantId });
     }
-    
+
     return query.orderBy('effectiveness_rating', 'desc');
   }
 
@@ -282,7 +285,8 @@ export class ExerciseModel {
       approvedAt: record.approved_at || new Date(),
       createdAt: record.created_at,
       updatedAt: record.updated_at,
-      tenantId: record.tenant_id
+      tenantId: record.tenant_id,
+      needEquipment: record.need_equipment
     };
   }
 
@@ -305,13 +309,14 @@ export class ExerciseModel {
       created_by: exercise.createdBy,
       approved_by: exercise.approvedBy,
       approved_at: exercise.approvedAt,
-      tenant_id: exercise.tenantId
+      tenant_id: exercise.tenantId,
+      need_equipment: exercise.needEquipment
     };
   }
 }
 
 export class ExerciseWithUserModel {
-  constructor(private knex: Knex) {}
+  constructor(private knex: Knex) { }
 
   async findById(id: string): Promise<ExerciseWithUserModel | undefined> {
     return this.knex('exercises')

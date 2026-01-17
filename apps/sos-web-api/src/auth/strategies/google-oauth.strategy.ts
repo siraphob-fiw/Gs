@@ -10,7 +10,12 @@ export class GoogleOAuthStrategy extends PassportStrategy(Strategy, 'google') {
 
   constructor(private configService: ConfigService) {
     const apiUrl = (process.env.API_URL || '').replace(/\/$/, ''); // Remove trailing slash
-    const callbackURL = `${apiUrl}/api/v1/auth/google/callback`;
+    let callbackURL = '';
+    if (process.env.NODE_ENV === 'development') {
+      callbackURL = `http://localhost:3001/api/v1/auth/google/callback`;
+    } else {
+      callbackURL = `${apiUrl}/openapi/api/v1/auth/google/callback`;
+    }
 
     const clientID = configService.get<string>('GOOGLE_CLIENT_ID') || '';
     const clientSecret =

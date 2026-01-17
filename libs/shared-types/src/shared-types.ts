@@ -117,6 +117,7 @@ export interface Tenant {
   subscription_info: string; //SubscriptionInfo;
   billing_info: BillingInfo;
   contact: { [key: string]: string };
+  availableEquipment?: string[];
   created_at: Date;
   updated_at: Date;
   suspended_at: Date | null;
